@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:divider="@drawable/empty_vertical_divider"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:showDividers="middle">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_wotd_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="word of the day"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/v_wotd_divider"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/thin_horizontal_divider"
+            app:layout_constraintBottom_toBottomOf="@id/tv_wotd_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_wotd_label"
+            app:layout_constraintTop_toTopOf="@id/tv_wotd_label" />
+
+        <TextView
+            android:id="@+id/tv_wotd_word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="36sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_wotd_label"
+            android:text="taphephobia" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_rw_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="feeling lucky?"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/v_rw_divider"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/thin_horizontal_divider"
+            app:layout_constraintBottom_toBottomOf="@id/tv_rw_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_rw_label"
+            app:layout_constraintTop_toTopOf="@id/tv_rw_label" />
+
+        <TextView
+            android:id="@+id/tv_rw_word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="36sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_rw_label"
+            android:text="" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
