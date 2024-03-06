@@ -6,6 +6,8 @@ sealed class DictionaryItemModel
 
 data class DictionarySectionErrorModel(val message: String) : DictionaryItemModel()
 
+data object DictionarySectionLoadingModel : DictionaryItemModel()
+
 data class DictionarySectionDividerModel(val name: String) : DictionaryItemModel()
 
 data class DictionaryAttributionTextModel(val text: String, val url: String) : DictionaryItemModel()

@@ -33,11 +33,13 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryRelatedWordMod
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryRelationshipTypeModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionarySectionDividerModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionarySection
+import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionarySectionLoadingModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordAudioModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordDefinitionModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordEtymologyModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordExampleModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.DictionaryListAdapter
+import ru.kpfu.itis.ponomarev.lexify.presentation.view.decoration.HeaderItemDecoration
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.WordViewModel
 
 @AndroidEntryPoint
@@ -69,6 +71,9 @@ class WordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val word = args.word
 
+        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvDictionary.layoutManager = layoutManager
+
         var isUserScrolling = false
         for (tab in DictionarySection.entries) {
             binding.tabs.addTab(
@@ -81,7 +86,7 @@ class WordFragment : Fragment() {
                     val tabPos = tab.position
                     val sectionName = DictionarySection.entries[tabPos].sectionName
                     val sectionPos = dictionaryListAdapter?.items?.indexOfFirst { it is DictionarySectionDividerModel && it.name == sectionName }
-                    sectionPos?.let { (binding.rvDictionary.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(sectionPos, 0) }
+                    sectionPos?.let { layoutManager.scrollToPositionWithOffset(sectionPos, 0) }
                 }
             }
 
@@ -102,11 +107,12 @@ class WordFragment : Fragment() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (isUserScrolling) {
-                    val itemPosition = if (dy > 0) {
-                        (binding.rvDictionary.layoutManager as? LinearLayoutManager)?.findLastVisibleItemPosition() ?: 0
-                    } else {
-                        (binding.rvDictionary.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition() ?: 0
-                    }
+//                    val itemPosition = if (dy > 0) {
+//                        layoutManager.findLastVisibleItemPosition()
+//                    } else {
+//                        layoutManager.findFirstVisibleItemPosition()
+//                    }
+                    val itemPosition = layoutManager.findFirstVisibleItemPosition()
                     val section: DictionarySectionDividerModel? =
                         dictionaryListAdapter?.items?.subList(0, itemPosition + 1)?.last { it is DictionarySectionDividerModel } as DictionarySectionDividerModel?
                     if (section != null) {
@@ -157,21 +163,33 @@ class WordFragment : Fragment() {
     private fun processList() {
         val itemsList = mutableListOf<DictionaryItemModel>()
         for (section in DictionarySection.entries) {
-            itemsList.add(DictionarySectionDividerModel(section.sectionName))
-            when (section) {
+            val sectionItems = when (section) {
                 DictionarySection.DEFINITIONS -> wordDefinitionsItems
                 DictionarySection.ETYMOLOGIES -> wordEtymologiesItems
                 DictionarySection.EXAMPLES -> wordExamplesItems
                 DictionarySection.RELATED -> wordRelatedItems
                 DictionarySection.AUDIO -> wordAudioItems
-            }?.let { itemsList.addAll(it) }
+            }
+            itemsList.add(DictionarySectionDividerModel(section.sectionName))
+            if (sectionItems == null) {
+                itemsList.add(DictionarySectionLoadingModel)
+            } else {
+                itemsList.addAll(sectionItems)
+            }
         }
-        dictionaryListAdapter = DictionaryListAdapter(itemsList, requireContext())
-        binding.rvDictionary.swapAdapter(dictionaryListAdapter, true)
+        if (dictionaryListAdapter == null) {
+            dictionaryListAdapter = DictionaryListAdapter(itemsList, requireContext())
+            binding.rvDictionary.adapter = dictionaryListAdapter
+            binding.rvDictionary.addItemDecoration(HeaderItemDecoration(dictionaryListAdapter!!))
+        }
+        dictionaryListAdapter?.items = itemsList
+//        binding.rvDictionary.swapAdapter(dictionaryListAdapter, true)
     }
 
     private fun processDefinitions(defs: List<WordDefinitionModel>?) {
-        if (defs.isNullOrEmpty()) {
+        if (defs == null) {
+            wordDefinitionsItems = null
+        } else if (defs.isEmpty()) {
             wordDefinitionsItems = listOf()
         } else {
             val itemsList = mutableListOf<DictionaryItemModel>()
@@ -203,7 +221,7 @@ class WordFragment : Fragment() {
 
     private fun processEtymologies(etyms: WordEtymologiesModel?) {
         wordEtymologiesItems = if (etyms == null) {
-            listOf()
+            null
         } else {
             listOf(
                 DictionaryWordEtymologyModel(etyms.text)
@@ -213,53 +231,41 @@ class WordFragment : Fragment() {
     }
 
     private fun processExamples(list: List<WordExampleModel>?) {
-        wordExamplesItems = if (list.isNullOrEmpty()) {
-            listOf()
-        } else {
-            list.map {
-                DictionaryWordExampleModel(
-                    text = it.text,
-                    url = it.url,
-                    title = it.title,
-                    author = it.author,
-                    year = it.year,
-                )
-            }
+        wordExamplesItems = list?.map {
+            DictionaryWordExampleModel(
+                text = it.text,
+                url = it.url,
+                title = it.title,
+                author = it.author,
+                year = it.year,
+            )
         }
         processList()
     }
 
     private fun processRelated(list: List<RelatedWordsModel>?) {
-        wordRelatedItems = if (list.isNullOrEmpty()) {
-            listOf()
-        } else {
-            list.flatMap {
-                mutableListOf<DictionaryItemModel>(
-                    DictionaryRelationshipTypeModel(type = it.relationshipType),
-                ).apply {
-                    addAll(
-                        it.words.map {
-                            DictionaryRelatedWordModel(word = it)
-                        }
-                    )
-                }
+        wordRelatedItems = list?.flatMap {
+            mutableListOf<DictionaryItemModel>(
+                DictionaryRelationshipTypeModel(type = it.relationshipType),
+            ).apply {
+                addAll(
+                    it.words.map {
+                        DictionaryRelatedWordModel(word = it)
+                    }
+                )
             }
         }
         processList()
     }
 
     private fun processAudio(list: List<WordAudioModel>?) {
-        wordAudioItems = if (list.isNullOrEmpty()) {
-            listOf()
-        } else {
-            list.map {
-                DictionaryWordAudioModel(
-                    it.duration,
-                    it.fileUrl,
-                    it.attributionText,
-                    it.attributionUrl,
-                )
-            }
+        wordAudioItems = list?.map {
+            DictionaryWordAudioModel(
+                it.duration,
+                it.fileUrl,
+                it.attributionText,
+                it.attributionUrl,
+            )
         }
         processList()
     }

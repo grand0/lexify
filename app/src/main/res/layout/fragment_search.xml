@@ -41,6 +41,7 @@
         android:inputType="text"
         android:gravity="center"
         android:autofillHints=""
+        android:textCursorDrawable="@drawable/text_cursor"
         android:imeOptions="actionSearch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
