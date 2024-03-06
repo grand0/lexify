@@ -19,5 +19,9 @@
         android:id="@+id/wordFragment"
         android:name="ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.WordFragment"
         android:label="WordFragment"
-        tools:layout="@layout/fragment_word" />
+        tools:layout="@layout/fragment_word" >
+        <argument
+            android:name="word"
+            app:argType="string" />
+    </fragment>
 </navigation>

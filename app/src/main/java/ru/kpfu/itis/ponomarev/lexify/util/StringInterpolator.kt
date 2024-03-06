@@ -13,6 +13,6 @@ class StringInterpolator(val template: String, val substitutions: List<String>, 
         var sub = substitutions[index % substitutions.size]
         sub = sub.substring(0, (sub.length * frac).toInt())
         if (sub.isEmpty() && useBlankSpaceChar) sub = " "
-        return template.replace("{}", sub)
+        return String.format(template, sub)
     }
 }

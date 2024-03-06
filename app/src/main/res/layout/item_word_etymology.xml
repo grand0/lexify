@@ -8,12 +8,11 @@
 
     <TextView
         android:id="@+id/tv_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/gray"
-        android:textSize="14sp"
-        tools:text="from The American Heritage® Dictionary of the English Language, 5th Edition" />
+        android:textSize="16sp"
+        tools:text="smth" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

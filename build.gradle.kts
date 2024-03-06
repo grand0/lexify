@@ -7,7 +7,11 @@ plugins {
 }
 
 buildscript {
+    repositories {
+        google()
+    }
     dependencies {
         classpath(libs.secrets.gradle.plugin)
+        classpath(libs.androidx.navigation.safe.args)
     }
 }

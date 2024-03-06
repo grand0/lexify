@@ -13,14 +13,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.NavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentDiscoverBinding
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.DiscoverViewModel
 import ru.kpfu.itis.ponomarev.lexify.util.StringInterpolator
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DiscoverFragment : Fragment() {
@@ -29,6 +28,11 @@ class DiscoverFragment : Fragment() {
 
     private var _binding: FragmentDiscoverBinding? = null
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var navController: NavController
+
+    private var valueAnimator: ValueAnimator? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,18 +44,7 @@ class DiscoverFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.tvWotdWord.setOnClickListener {
-            if (viewModel.wordOfTheDayState.value.word.isNotEmpty()) {
-                requireActivity().findNavController(R.id.nav_host_fragment_container)
-                    .navigate(R.id.action_homeFragment_to_wordFragment)
-            }
-        }
-//        binding.tvRwWord.setOnClickListener {
-//            viewModel.updateRandomWord()
-//        }
-
         var randomWordInterpolator: StringInterpolator?
-        var valueAnimator: ValueAnimator? = null
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -63,7 +56,7 @@ class DiscoverFragment : Fragment() {
                         }
 
                         if (it.isNotEmpty()) {
-                            randomWordInterpolator = StringInterpolator("{}", it.map { m -> m.word }, useBlankSpaceChar = true)
+                            randomWordInterpolator = StringInterpolator("%s", it.map { m -> m.word }, useBlankSpaceChar = true)
                             val kfs = arrayOfNulls<Keyframe>(it.size * 2 + 1)
                             for (i in it.indices) {
                                 kfs[i * 2] = Keyframe.ofFloat(i.toFloat() / it.size, i.toFloat())
@@ -93,9 +86,24 @@ class DiscoverFragment : Fragment() {
                 }
             }
         }
+
+        binding.tvWotdWord.setOnClickListener {
+            if (viewModel.wordOfTheDayState.value.word.isNotEmpty()) {
+                val word = viewModel.wordOfTheDayState.value.word
+                val action = HomeFragmentDirections.actionHomeFragmentToWordFragment(word)
+                navController.navigate(action)
+            }
+        }
+//        binding.tvRwWord.setOnClickListener {
+//            viewModel.updateRandomWord()
+//        }
     }
 
     override fun onDestroyView() {
+        valueAnimator?.apply {
+            removeAllUpdateListeners()
+            cancel()
+        }
         _binding = null
         super.onDestroyView()
     }

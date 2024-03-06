@@ -8,6 +8,8 @@ plugins {
 
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -69,10 +71,13 @@ dependencies {
     implementation(libs.ktor.client.resources)
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.gson)
+    implementation(libs.ktor.client.logging)
 
     // hilt
     implementation("com.google.dagger:hilt-android:2.50")
     kapt("com.google.dagger:hilt-android-compiler:2.50")
+
+    implementation("org.slf4j:slf4j-simple:2.0.9")
 }
 
 // Allow references to generated code

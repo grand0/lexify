@@ -16,6 +16,7 @@ import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentHomeBinding
 import ru.kpfu.itis.ponomarev.lexify.util.StringInterpolator
 import ru.kpfu.itis.ponomarev.lexify.util.toPx
 import java.lang.RuntimeException
+import java.util.Calendar
 
 class HomeFragment : Fragment() {
 
@@ -32,7 +33,10 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val msgInterpolator = StringInterpolator(MESSAGE_TEMPLATE, MESSAGE_WORDS)
+        val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        val msgTemplate = if (hour in 6..19) getString(R.string.home_message_day) else getString(R.string.home_message_night)
+
+        val msgInterpolator = StringInterpolator(msgTemplate, MESSAGE_WORDS)
         val pagerIndicatorItems = arrayOfNulls<AnimatedVectorDrawable>(NUM_PAGES)
         for (i in 0 until NUM_PAGES) {
             val avd = AppCompatResources.getDrawable(
@@ -95,7 +99,6 @@ class HomeFragment : Fragment() {
     companion object {
         const val NUM_PAGES = 3
 
-        private const val MESSAGE_TEMPLATE = "what will you {} today?"
         private val MESSAGE_WORDS = listOf("discover", "learn", "recollect")
     }
 

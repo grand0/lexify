@@ -5,6 +5,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.ItemWordDefinitionBinding
@@ -16,24 +17,28 @@ class WordDefinitionHolder(
 
     fun bindItem(item: DictionaryWordDefinitionModel, context: Context) {
         val span = SpannableStringBuilder()
-        span.append(item.partOfSpeech)
-        if (item.labels.isNotEmpty()) {
-            span.append(", ")
-            span.append(item.labels.joinToString(", ") { it.text })
+        val labels = mutableListOf<String>()
+        if (item.partOfSpeech != null) {
+            labels.add(item.partOfSpeech)
         }
-        span.setSpan(
-            UnderlineSpan(),
-            0,
-            span.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
-        )
-        span.setSpan(
-            ForegroundColorSpan(context.getColor(R.color.gray)),
-            0,
-            span.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
-        )
-        span.append(" ").append(item.text)
+        labels.addAll(item.labels.map { it.text })
+        if (labels.isNotEmpty()) {
+            span.append(labels.joinToString(", "))
+            span.setSpan(
+                UnderlineSpan(),
+                0,
+                span.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
+            )
+            span.setSpan(
+                ForegroundColorSpan(context.getColor(R.color.gray)),
+                0,
+                span.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
+            )
+            span.append(" ")
+        }
+        span.append(item.text)
         binding.tvText.text = span
     }
 }
