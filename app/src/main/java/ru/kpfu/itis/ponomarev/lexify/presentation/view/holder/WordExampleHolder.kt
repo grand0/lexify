@@ -12,13 +12,18 @@ class WordExampleHolder(
     private val binding: ItemWordExampleBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
+    var copyableText = ""
+
     fun bindItem(item: DictionaryWordExampleModel, context: Context) {
         binding.tvText.text = item.text
         val sb = StringBuilder()
         if (item.title != null) sb.append(item.title).append(", ")
         if (item.author != null) sb.append(item.author).append(", ")
         if (item.year != null) sb.append(item.year)
-        binding.tvAttr.text = sb.toString().removeSuffix(", ")
+        val attrText = sb.toString().removeSuffix(", ")
+        binding.tvAttr.text = attrText
+
+        copyableText = item.text + (if (attrText.isNotEmpty()) " ($attrText)" else "")
 
         if (URLUtil.isValidUrl(item.url)) {
             binding.tvAttr.setOnClickListener {

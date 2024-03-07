@@ -1,23 +1,30 @@
 package ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.slf4j.LoggerFactory
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentWordBinding
+import ru.kpfu.itis.ponomarev.lexify.databinding.ItemWordDefinitionBinding
 import ru.kpfu.itis.ponomarev.lexify.domain.model.RelatedWordsModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordAudioModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordDefinitionModel
@@ -39,7 +46,12 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordDefinition
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordEtymologyModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordExampleModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.DictionaryListAdapter
+import ru.kpfu.itis.ponomarev.lexify.presentation.view.callback.ItemHorizontalSwipeCallback
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.decoration.HeaderItemDecoration
+import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.RelatedWordHolder
+import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordDefinitionHolder
+import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordEtymologyHolder
+import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordExampleHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.WordViewModel
 
 @AndroidEntryPoint
@@ -58,6 +70,8 @@ class WordFragment : Fragment() {
     private var wordRelatedItems: List<DictionaryItemModel>? = null
     private var wordExamplesItems: List<DictionaryItemModel>? = null
     private var wordAudioItems: List<DictionaryItemModel>? = null
+
+    private var clipboardManager: ClipboardManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -123,6 +137,41 @@ class WordFragment : Fragment() {
             }
         })
 
+        val itemHorizontalSwipeCallback = ItemHorizontalSwipeCallback(
+            requireContext(),
+            mapOf(
+                WordDefinitionHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
+                    left = ItemHorizontalSwipeCallback.ItemSwipeAction("copy") { vh ->
+                        dictionaryListAdapter?.notifyItemChanged(vh.adapterPosition)
+                        copyText((vh as WordDefinitionHolder).copyableText)
+                    },
+                    right = ItemHorizontalSwipeCallback.ItemSwipeAction("remember") { vh ->
+                        dictionaryListAdapter?.notifyItemChanged(vh.adapterPosition)
+                        LoggerFactory.getLogger(this::class.java).error("REMEMBERED")
+                    }
+                ),
+                RelatedWordHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
+                    left = ItemHorizontalSwipeCallback.ItemSwipeAction("copy") { vh ->
+                        dictionaryListAdapter?.notifyItemChanged(vh.adapterPosition)
+                        copyText((vh as RelatedWordHolder).copyableText)
+                    },
+                ),
+                WordEtymologyHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
+                    left = ItemHorizontalSwipeCallback.ItemSwipeAction("copy") { vh ->
+                        dictionaryListAdapter?.notifyItemChanged(vh.adapterPosition)
+                        copyText((vh as WordEtymologyHolder).copyableText)
+                    },
+                ),
+                WordExampleHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
+                    left = ItemHorizontalSwipeCallback.ItemSwipeAction("copy") { vh ->
+                        dictionaryListAdapter?.notifyItemChanged(vh.adapterPosition)
+                        copyText((vh as WordExampleHolder).copyableText)
+                    },
+                ),
+            )
+        )
+        ItemTouchHelper(itemHorizontalSwipeCallback).attachToRecyclerView(binding.rvDictionary)
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch { viewModel.definitionsState.collect { processDefinitions(it) } }
@@ -158,6 +207,13 @@ class WordFragment : Fragment() {
         viewModel.update(word)
 
         binding.tvWord.text = word
+    }
+
+    private fun copyText(text: String) {
+        if (clipboardManager == null) {
+            clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        }
+        clipboardManager?.setPrimaryClip(ClipData.newPlainText("lexify_copied_text", text))
     }
 
     private fun processList() {

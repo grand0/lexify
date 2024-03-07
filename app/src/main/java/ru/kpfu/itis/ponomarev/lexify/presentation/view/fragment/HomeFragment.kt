@@ -14,7 +14,7 @@ import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.HomeFragmentAdapter
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentHomeBinding
 import ru.kpfu.itis.ponomarev.lexify.util.StringInterpolator
-import ru.kpfu.itis.ponomarev.lexify.util.toPx
+import ru.kpfu.itis.ponomarev.lexify.util.dpToPx
 import java.lang.RuntimeException
 import java.util.Calendar
 
@@ -67,7 +67,7 @@ class HomeFragment : Fragment() {
                     positionOffsetPixels: Int
                 ) {
                     val marginDp = (position - (NUM_PAGES - 1) / 2.0 + positionOffset) * (16 + 24 + 12 + 12 + 16)
-                    val marginPx = requireContext().toPx(marginDp.toInt())
+                    val marginPx = requireContext().dpToPx(marginDp.toInt())
                     if (marginPx < 0.0) {
                         binding.llPagerIndicator.updatePadding(left = -marginPx, right = 0)
                     } else {

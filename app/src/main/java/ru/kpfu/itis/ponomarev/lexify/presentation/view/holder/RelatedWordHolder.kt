@@ -8,7 +8,11 @@ class RelatedWordHolder(
     private val binding: ItemWordRelatedBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
+    var copyableText: String = ""
+
     fun bindItem(item: DictionaryRelatedWordModel) {
+        copyableText = item.word
+
         binding.tvText.text = item.word
     }
 }

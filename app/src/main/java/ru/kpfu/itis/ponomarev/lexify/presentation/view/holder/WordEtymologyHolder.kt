@@ -8,7 +8,11 @@ class WordEtymologyHolder(
     private val binding: ItemWordEtymologyBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
+    var copyableText = ""
+
     fun bindItem(item: DictionaryWordEtymologyModel) {
+        copyableText = item.text
+
         binding.tvText.text = item.text
     }
 }

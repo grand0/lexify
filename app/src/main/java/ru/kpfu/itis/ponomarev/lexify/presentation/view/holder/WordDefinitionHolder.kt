@@ -5,7 +5,6 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
-import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.ItemWordDefinitionBinding
@@ -15,7 +14,11 @@ class WordDefinitionHolder(
     private val binding: ItemWordDefinitionBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
+    var copyableText: String = ""
+
     fun bindItem(item: DictionaryWordDefinitionModel, context: Context) {
+        copyableText = item.text
+
         val span = SpannableStringBuilder()
         val labels = mutableListOf<String>()
         if (item.partOfSpeech != null) {

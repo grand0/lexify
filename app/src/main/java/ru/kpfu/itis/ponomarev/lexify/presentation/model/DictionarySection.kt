@@ -8,6 +8,6 @@ enum class DictionarySection(
     DEFINITIONS("define", "definitions"),
     ETYMOLOGIES("discover", "etymologies"),
     EXAMPLES("observe", "examples"),
-    RELATED("relate", "related"),
+    RELATED("relate", "related words"),
     AUDIO("hear", "audio"),
 }
