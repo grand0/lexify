@@ -51,11 +51,13 @@
         android:layout_marginTop="16dp"
         android:background="#0fff"
         app:layout_constraintTop_toBottomOf="@id/tv_word"
-        app:tabContentStart="20dp"
+        app:tabContentStart="28dp"
         app:tabGravity="start"
-        app:tabIndicator="@drawable/tab_indicator_line"
+        app:tabIndicator="@drawable/tab_indicator_pill"
         app:tabIndicatorColor="@color/black"
-        app:tabIndicatorGravity="bottom"
+        app:tabIndicatorGravity="center"
+        app:tabIndicatorFullWidth="true"
+        app:tabIndicatorHeight="32dp"
         app:tabMinWidth="24dp"
         app:tabMode="scrollable"
         app:tabPaddingEnd="16dp"
@@ -64,7 +66,7 @@
         app:tabRippleColor="@color/gray"
         app:tabTextAppearance="@style/Text"
         app:tabSelectedTextAppearance="@style/Text"
-        app:tabSelectedTextColor="@color/black" />
+        app:tabSelectedTextColor="@color/white" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_dictionary"
