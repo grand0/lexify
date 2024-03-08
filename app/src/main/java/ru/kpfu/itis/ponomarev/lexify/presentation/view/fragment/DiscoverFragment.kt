@@ -94,9 +94,10 @@ class DiscoverFragment : Fragment() {
                 navController.navigate(action)
             }
         }
-//        binding.tvRwWord.setOnClickListener {
-//            viewModel.updateRandomWord()
-//        }
+        binding.tvRwWord.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToRandomWordRouletteFragment()
+            navController.navigate(action)
+        }
     }
 
     override fun onDestroyView() {

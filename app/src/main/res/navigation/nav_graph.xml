@@ -9,19 +9,31 @@
         android:id="@+id/homeFragment"
         android:name="ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_wordFragment"
             app:destination="@id/wordFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_randomWordRouletteFragment"
+            app:destination="@id/randomWordRouletteFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/wordFragment"
         android:name="ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.WordFragment"
         android:label="WordFragment"
-        tools:layout="@layout/fragment_word" >
+        tools:layout="@layout/fragment_word">
         <argument
             android:name="word"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/randomWordRouletteFragment"
+        android:name="ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.RandomWordRouletteFragment"
+        android:label="RandomWordRouletteFragment"
+        tools:layout="@layout/fragment_random_word_roulette" >
+        <action
+            android:id="@+id/action_randomWordRouletteFragment_to_wordFragment"
+            app:destination="@id/wordFragment" />
     </fragment>
 </navigation>

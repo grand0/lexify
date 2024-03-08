@@ -8,7 +8,7 @@ class GetRandomWordsUseCase @Inject constructor(
     private val repository: WordsRepository,
 ) {
 
-    suspend operator fun invoke(): List<RandomWordModel> {
-        return repository.getRandomWords()
+    suspend operator fun invoke(limit: Int = 10): List<RandomWordModel> {
+        return repository.getRandomWords(limit)
     }
 }

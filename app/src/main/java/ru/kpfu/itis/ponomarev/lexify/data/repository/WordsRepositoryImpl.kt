@@ -16,8 +16,8 @@ class WordsRepositoryImpl @Inject constructor(
     override suspend fun getRandomWord(): RandomWordModel =
         http.get(WordsResources.RandomWord()).body()
 
-    override suspend fun getRandomWords(): List<RandomWordModel> =
-        http.get(WordsResources.RandomWords()).body()
+    override suspend fun getRandomWords(limit: Int): List<RandomWordModel> =
+        http.get(WordsResources.RandomWords(limit = limit)).body()
 
     override suspend fun getWordOfTheDay(): WordOfTheDayModel {
         return http.get(WordsResources.WordOfTheDay()).body()

@@ -6,6 +6,6 @@ import ru.kpfu.itis.ponomarev.lexify.domain.model.WordOfTheDayModel
 interface WordsRepository {
 
     suspend fun getRandomWord(): RandomWordModel
-    suspend fun getRandomWords(): List<RandomWordModel>
+    suspend fun getRandomWords(limit: Int = 10): List<RandomWordModel>
     suspend fun getWordOfTheDay(): WordOfTheDayModel
 }

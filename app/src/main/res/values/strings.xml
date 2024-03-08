@@ -6,4 +6,5 @@
     <string name="rate_limit">rate limit</string>
     <string name="home_message_day">what will you %s today?</string>
     <string name="home_message_night">what will you %s tonight?</string>
+    <string name="random_word_message">lucky charm!</string>
 </resources>
