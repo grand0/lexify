@@ -26,6 +26,9 @@
         <argument
             android:name="word"
             app:argType="string" />
+        <action
+            android:id="@+id/action_wordFragment_self"
+            app:destination="@id/wordFragment" />
     </fragment>
     <fragment
         android:id="@+id/randomWordRouletteFragment"

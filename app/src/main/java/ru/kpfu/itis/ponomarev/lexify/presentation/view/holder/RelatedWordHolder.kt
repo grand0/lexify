@@ -8,10 +8,10 @@ class RelatedWordHolder(
     private val binding: ItemWordRelatedBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    var copyableText: String = ""
+    var word: String = ""
 
     fun bindItem(item: DictionaryRelatedWordModel) {
-        copyableText = item.word
+        word = item.word
 
         binding.tvText.text = item.word
     }

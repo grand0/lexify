@@ -7,12 +7,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +24,6 @@ import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentWordBinding
-import ru.kpfu.itis.ponomarev.lexify.databinding.ItemWordDefinitionBinding
 import ru.kpfu.itis.ponomarev.lexify.domain.model.RelatedWordsModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordAudioModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordDefinitionModel
@@ -53,6 +52,7 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordDefinitionHold
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordEtymologyHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordExampleHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.WordViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class WordFragment : Fragment() {
@@ -61,6 +61,9 @@ class WordFragment : Fragment() {
 
     private var _binding: FragmentWordBinding? = null
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var navController: NavController
 
     private val args: WordFragmentArgs by navArgs()
 
@@ -153,8 +156,12 @@ class WordFragment : Fragment() {
                 RelatedWordHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
                     left = ItemHorizontalSwipeCallback.ItemSwipeAction("copy") { vh ->
                         dictionaryListAdapter?.notifyItemChanged(vh.adapterPosition)
-                        copyText((vh as RelatedWordHolder).copyableText)
+                        copyText((vh as RelatedWordHolder).word)
                     },
+                    right = ItemHorizontalSwipeCallback.ItemSwipeAction("see") { vh ->
+                        dictionaryListAdapter?.notifyItemChanged(vh.adapterPosition)
+                        openWord((vh as RelatedWordHolder).word)
+                    }
                 ),
                 WordEtymologyHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
                     left = ItemHorizontalSwipeCallback.ItemSwipeAction("copy") { vh ->
@@ -214,6 +221,11 @@ class WordFragment : Fragment() {
             clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         }
         clipboardManager?.setPrimaryClip(ClipData.newPlainText("lexify_copied_text", text))
+    }
+
+    private fun openWord(word: String) {
+        val action = WordFragmentDirections.actionWordFragmentSelf(word)
+        navController.navigate(action) // TODO: this breaks current word screen. need to add state saving/restoring
     }
 
     private fun processList() {
