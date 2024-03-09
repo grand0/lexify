@@ -6,4 +6,5 @@ data class WordExampleModel(
     val text: String,
     val title: String,
     val author: String?,
+    val word: String?,
 )

@@ -13,21 +13,22 @@
         android:id="@+id/tv_attr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:textColor="@color/gray"
         android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="from The American Heritage® Dictionary of the English Language, 5th Edition" />
 
     <ImageView
         android:id="@+id/iv_play"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:padding="4dp"
         android:layout_marginTop="4dp"
+        android:padding="4dp"
         android:src="@drawable/outline_play_circle_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_attr" />
+        app:layout_constraintTop_toBottomOf="@id/tv_attr"
+        app:tint="@color/black" />
 
     <TextView
         android:id="@+id/tv_duration"

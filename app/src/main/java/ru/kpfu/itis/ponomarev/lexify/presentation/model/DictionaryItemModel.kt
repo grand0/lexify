@@ -33,7 +33,8 @@ data class DictionaryWordExampleModel(
     val url: String?,
     val title: String?,
     val author: String?,
-    val year: Int?
+    val year: Int?,
+    val word: String?,
 ) : DictionaryItemModel()
 
 data class DictionaryWordAudioModel(

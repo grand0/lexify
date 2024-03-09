@@ -45,6 +45,7 @@ class WordRepositoryImpl @Inject constructor(
         val resp: WordExamplesResponse =
             http.get(WordResources.Word.Examples(WordResources.Word(word = word))).body()
         return resp.examples
+            .distinctBy(WordExampleModel::text)
     }
 
     override suspend fun getRelatedWords(word: String): List<RelatedWordsModel> {

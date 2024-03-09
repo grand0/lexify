@@ -14,3 +14,11 @@ fun Context.spToPx(sp: Int): Float = TypedValue.applyDimension(
     sp.toFloat(),
     resources.displayMetrics
 )
+
+fun String?.indexesOf(substr: String?, ignoreCase: Boolean = true): List<Int> {
+    if (substr == null) return emptyList()
+    return this?.let {
+        val regex = if (ignoreCase) Regex("\\b$substr\\b", RegexOption.IGNORE_CASE) else Regex(substr)
+        regex.findAll(this).map { it.range.first }.toList()
+    } ?: emptyList()
+}

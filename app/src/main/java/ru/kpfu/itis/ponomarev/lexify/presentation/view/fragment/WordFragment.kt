@@ -18,6 +18,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -77,6 +78,7 @@ class WordFragment : Fragment() {
 
     private var clipboardManager: ClipboardManager? = null
     private var mediaPlayer: MediaPlayer? = null
+    private var rateLimit = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -194,7 +196,19 @@ class WordFragment : Fragment() {
                             val msg = error.message
                                 ?: when (error) {
                                     is DictionarySectionNotFoundException -> getString(R.string.found_nothing)
-                                    is DictionarySectionRateLimitException -> getString(R.string.rate_limit)
+                                    is DictionarySectionRateLimitException -> {
+                                        if (!rateLimit) {
+                                            rateLimit = true
+                                            Snackbar.make(
+                                                binding.root,
+                                                R.string.too_many_requests_message,
+                                                Snackbar.LENGTH_LONG,
+                                            )
+                                                .setBackgroundTint(requireContext().getColor(R.color.black)) // TODO: change for dark mode
+                                                .show()
+                                        }
+                                        getString(R.string.rate_limit)
+                                    }
                                     else -> getString(R.string.unknown_error)
                                 }
                             val itemsList = listOf(
@@ -308,6 +322,7 @@ class WordFragment : Fragment() {
                 title = it.title,
                 author = it.author,
                 year = it.year,
+                word = it.word,
             )
         }
         processList()
