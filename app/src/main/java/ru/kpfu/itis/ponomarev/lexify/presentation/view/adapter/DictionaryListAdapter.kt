@@ -44,6 +44,7 @@ import java.lang.RuntimeException
 class DictionaryListAdapter(
     items: List<DictionaryItemModel>,
     private val context: Context,
+    private val onAudioPlayClickListener: (url: String) -> Unit,
 ) : RecyclerView.Adapter<ViewHolder>(), HeaderItemDecoration.StickyHeaderInterface {
 
     var items = items
@@ -75,7 +76,8 @@ class DictionaryListAdapter(
             binding = ItemRelationshipTypeTextBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
         R.layout.item_word_audio -> WordAudioHolder(
-            binding = ItemWordAudioBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            binding = ItemWordAudioBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            onAudioPlayClickListener = onAudioPlayClickListener,
         )
         R.layout.item_section_error -> SectionErrorHolder(
             binding = ItemSectionErrorBinding.inflate(LayoutInflater.from(parent.context), parent, false)

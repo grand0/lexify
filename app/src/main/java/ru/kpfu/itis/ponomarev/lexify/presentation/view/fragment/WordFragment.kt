@@ -3,6 +3,7 @@ package ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -75,6 +76,7 @@ class WordFragment : Fragment() {
     private var wordAudioItems: List<DictionaryItemModel>? = null
 
     private var clipboardManager: ClipboardManager? = null
+    private var mediaPlayer: MediaPlayer? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -246,7 +248,7 @@ class WordFragment : Fragment() {
             }
         }
         if (dictionaryListAdapter == null) {
-            dictionaryListAdapter = DictionaryListAdapter(itemsList, requireContext())
+            dictionaryListAdapter = DictionaryListAdapter(itemsList, requireContext(), ::onAudioPlayClickListener)
             binding.rvDictionary.adapter = dictionaryListAdapter
             binding.rvDictionary.addItemDecoration(HeaderItemDecoration(dictionaryListAdapter!!))
         }
@@ -336,6 +338,20 @@ class WordFragment : Fragment() {
             )
         }
         processList()
+    }
+
+    private fun onAudioPlayClickListener(url: String) {
+        val mp = mediaPlayer?.apply {
+            if (isPlaying) stop()
+            reset()
+        } ?: MediaPlayer()
+        with (mp) {
+            setDataSource(url)
+            prepareAsync()
+            setOnPreparedListener {
+                start()
+            }
+        }
     }
 
     override fun onDestroyView() {

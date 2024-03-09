@@ -47,7 +47,7 @@ class WordViewModel @Inject constructor(
     private val _audioState = MutableStateFlow<List<WordAudioModel>?>(null)
     val audioState get() = _audioState.asStateFlow()
 
-    val errorsChannel = Channel<Throwable>()
+    val errorsChannel = Channel<Throwable>(Channel.UNLIMITED)
 
     fun update(word: String) {
         updateDefinitions(word)
