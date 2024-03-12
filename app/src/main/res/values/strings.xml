@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">lexify</string>
     <string name="love_btn_text">love</string>
+    <string name="unlove_btn_text">unlove</string>
     <string name="unknown_error">an error has occurred</string>
     <string name="found_nothing">found nothing</string>
     <string name="rate_limit">rate limit</string>
@@ -9,4 +10,10 @@
     <string name="random_word_message">lucky charm!</string>
     <string name="audio_duration_text">%1$s sec</string>
     <string name="too_many_requests_message">hey, you\'re making too many requests. slow down!</string>
+    <string name="loved">loved</string>
+    <string name="alphabetically">alphabetically</string>
+    <string name="recent">recent</string>
+    <string name="sort_btn_text">sort</string>
+    <string name="sort_text">sort</string>
+    <string name="empty_text">empty</string>
 </resources>

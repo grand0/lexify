@@ -73,11 +73,17 @@ dependencies {
     implementation(libs.ktor.serialization.gson)
     implementation(libs.ktor.client.logging)
 
-    // hilt
-    implementation("com.google.dagger:hilt-android:2.50")
-    kapt("com.google.dagger:hilt-android-compiler:2.50")
+    // room
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx   )
 
-    implementation("org.slf4j:slf4j-simple:2.0.9")
+    // hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
+    // logging
+    implementation(libs.slf4j.simple)
 }
 
 // Allow references to generated code

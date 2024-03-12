@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -22,6 +24,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 import ru.kpfu.itis.ponomarev.lexify.R
@@ -31,6 +34,7 @@ import ru.kpfu.itis.ponomarev.lexify.domain.model.WordAudioModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordDefinitionModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordEtymologiesModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordExampleModel
+import ru.kpfu.itis.ponomarev.lexify.domain.service.LovedService
 import ru.kpfu.itis.ponomarev.lexify.presentation.exception.DictionarySectionException
 import ru.kpfu.itis.ponomarev.lexify.presentation.exception.DictionarySectionNotFoundException
 import ru.kpfu.itis.ponomarev.lexify.presentation.exception.DictionarySectionRateLimitException
@@ -76,6 +80,8 @@ class WordFragment : Fragment() {
     private var wordExamplesItems: List<DictionaryItemModel>? = null
     private var wordAudioItems: List<DictionaryItemModel>? = null
 
+    @Inject
+    lateinit var lovedService: LovedService
     private var clipboardManager: ClipboardManager? = null
     private var mediaPlayer: MediaPlayer? = null
     private var rateLimit = false
@@ -91,6 +97,22 @@ class WordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val word = args.word
+
+        lifecycleScope.launch {
+            setLovedButtonState(lovedService.isLoved(word))
+        }
+
+        binding.btnLove.setOnClickListener {
+            lifecycleScope.launch {
+                if (lovedService.isLoved(word)) {
+                    lovedService.deleteWord(word)
+                    setLovedButtonState(false)
+                } else {
+                    lovedService.addWord(word)
+                    setLovedButtonState(true)
+                }
+            }
+        }
 
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvDictionary.layoutManager = layoutManager
@@ -230,6 +252,14 @@ class WordFragment : Fragment() {
         viewModel.update(word)
 
         binding.tvWord.text = word
+    }
+
+    private fun setLovedButtonState(loved: Boolean) {
+        binding.btnLove.apply {
+            background = AppCompatResources.getDrawable(requireContext(), if (loved) R.drawable.btn_active else R.drawable.btn_normal)
+            setTextColor(requireContext().getColor(if (loved) R.color.white else R.color.black)) // TODO: colors
+            text = getString(if (loved) R.string.unlove_btn_text else R.string.love_btn_text)
+        }
     }
 
     private fun copyText(text: String) {

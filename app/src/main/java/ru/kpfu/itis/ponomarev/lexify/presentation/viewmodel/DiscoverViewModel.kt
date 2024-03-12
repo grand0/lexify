@@ -15,13 +15,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DiscoverViewModel @Inject constructor(
-    private val getRandomWordUseCase: GetRandomWordUseCase,
     private val getRandomWordsUseCase: GetRandomWordsUseCase,
     private val getWordOfTheDayUseCase: GetWordOfTheDayUseCase,
 ) : ViewModel() {
-
-    private val _randomWordState = MutableStateFlow(RandomWordModel(0, ""))
-    val randomWordState get() = _randomWordState.asStateFlow()
 
     private val _randomWordsState = MutableStateFlow<List<RandomWordModel>>(listOf())
     val randomWordsState get() = _randomWordsState.asStateFlow()
@@ -32,12 +28,6 @@ class DiscoverViewModel @Inject constructor(
     init {
         updateRandomWords()
         updateWordOfTheDay()
-    }
-
-    fun updateRandomWord() {
-        viewModelScope.launch {
-            _randomWordState.value = getRandomWordUseCase()
-        }
     }
 
     fun updateRandomWords() {

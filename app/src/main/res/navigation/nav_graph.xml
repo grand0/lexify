@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_randomWordRouletteFragment"
             app:destination="@id/randomWordRouletteFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_lovedFragment"
+            app:destination="@id/lovedFragment" />
     </fragment>
 
     <fragment
@@ -34,9 +37,24 @@
         android:id="@+id/randomWordRouletteFragment"
         android:name="ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.RandomWordRouletteFragment"
         android:label="RandomWordRouletteFragment"
-        tools:layout="@layout/fragment_random_word_roulette" >
+        tools:layout="@layout/fragment_random_word_roulette">
         <action
             android:id="@+id/action_randomWordRouletteFragment_to_wordFragment"
             app:destination="@id/wordFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/lovedFragment"
+        android:name="ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.LovedFragment"
+        android:label="LovedFragment">
+        <action
+            android:id="@+id/action_lovedFragment_to_wordFragment"
+            app:destination="@id/wordFragment" />
+        <action
+            android:id="@+id/action_lovedFragment_to_lovedWordsSortingBottomSheetDialogFragment"
+            app:destination="@id/lovedWordsSortingBottomSheetDialogFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/lovedWordsSortingBottomSheetDialogFragment"
+        android:name="ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.dialog.LovedWordsSortingBottomSheetDialogFragment"
+        android:label="LovedWordsSortingBottomSheetDialogFragment" />
 </navigation>
