@@ -31,7 +31,6 @@ import ru.kpfu.itis.ponomarev.lexify.domain.model.WordAudioModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordDefinitionModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordEtymologiesModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordExampleModel
-import ru.kpfu.itis.ponomarev.lexify.domain.service.LovedService
 import ru.kpfu.itis.ponomarev.lexify.presentation.exception.DictionarySectionException
 import ru.kpfu.itis.ponomarev.lexify.presentation.exception.DictionarySectionNotFoundException
 import ru.kpfu.itis.ponomarev.lexify.presentation.exception.DictionarySectionRateLimitException
@@ -78,8 +77,6 @@ class WordFragment : Fragment() {
     private var wordExamplesItems: List<DictionaryItemModel>? = null
     private var wordAudioItems: List<DictionaryItemModel>? = null
 
-    @Inject
-    lateinit var lovedService: LovedService
     private var clipboardManager: ClipboardManager? = null
     private var mediaPlayer: MediaPlayer? = null
     private var rateLimit = false
@@ -96,19 +93,13 @@ class WordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val word = args.word
 
-        lifecycleScope.launch {
-            setLovedButtonState(lovedService.isLoved(word))
-        }
-
         binding.btnLove.setOnClickListener {
-            lifecycleScope.launch {
-                if (lovedService.isLoved(word)) {
-                    lovedService.deleteWord(word)
-                    setLovedButtonState(false)
-                } else {
-                    lovedService.addWord(word)
-                    setLovedButtonState(true)
-                }
+            if (viewModel.isLovedState.value) {
+                viewModel.unlove(word)
+                setLovedButtonState(false)
+            } else {
+                viewModel.love(word)
+                setLovedButtonState(true)
             }
         }
 
@@ -207,6 +198,7 @@ class WordFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { viewModel.isLovedState.collect { setLovedButtonState(it) } }
                 launch { viewModel.definitionsState.collect { processDefinitions(it) } }
                 launch { viewModel.etymologiesState.collect { processEtymologies(it) } }
                 launch { viewModel.relatedWordsState.collect { processRelated(it) } }

@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,25 +23,26 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.diffutil.LovedDif
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.callback.ItemHorizontalSwipeCallback
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.dialog.LovedWordsSortingBottomSheetDialogFragment
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.LovedWordHolder
+import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.LovedViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class LovedFragment : Fragment() {
+
+    private val lovedViewModel: LovedViewModel by viewModels()
 
     private var _binding: FragmentLovedBinding? = null
     private val binding get() = _binding!!
 
     @Inject
     lateinit var navController: NavController
-    @Inject
-    lateinit var lovedService: LovedService
-    private var adapter: LovedListAdapter? = null
+
     private var currentSorting = LovedWordsSorting.ALPHABETICALLY
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentLovedBinding.inflate(inflater)
         return binding.root
@@ -52,39 +56,29 @@ class LovedFragment : Fragment() {
             ).show(childFragmentManager, null)
         }
 
-        adapter = LovedListAdapter(LovedDiffUtilItemCallback(), ::onItemClicked)
+        val adapter = LovedListAdapter(LovedDiffUtilItemCallback(), ::onItemClicked)
         binding.rvWords.adapter = adapter
 
-        adapter?.let { adapter ->
-            val itemHorizontalSwipeCallback = ItemHorizontalSwipeCallback(
-                requireContext(),
-                mapOf(
-                    LovedWordHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
-                        right = ItemHorizontalSwipeCallback.ItemSwipeAction("unlove") { vh ->
-                            lifecycleScope.launch {
-                                lovedService.deleteWord(ItemLovedWordBinding.bind(vh.itemView).tvWord.text.toString())
-                            }.invokeOnCompletion { e ->
-                                if (e == null) {
-                                    with (adapter.currentList.toMutableList()) {
-                                        removeAt(vh.adapterPosition)
-                                        adapter.submitList(this)
-                                    }
-                                } else {
-                                    // something went wrong, notify adapter that the item is still there
-                                    adapter.notifyItemChanged(vh.adapterPosition)
-                                }
-                            }
-                        }
-                    )
+        val itemHorizontalSwipeCallback = ItemHorizontalSwipeCallback(
+            requireContext(),
+            mapOf(
+                LovedWordHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
+                    right = ItemHorizontalSwipeCallback.ItemSwipeAction("unlove") { vh ->
+                        lovedViewModel.unlove(ItemLovedWordBinding.bind(vh.itemView).tvWord.text.toString())
+                    }
                 )
             )
-            ItemTouchHelper(itemHorizontalSwipeCallback).attachToRecyclerView(binding.rvWords)
+        )
+        ItemTouchHelper(itemHorizontalSwipeCallback).attachToRecyclerView(binding.rvWords)
 
-            lifecycleScope.launch {
-                val list = lovedService.getAll()
-                adapter.submitList(list)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                lovedViewModel.lovedState.collect {
+                    adapter.submitList(it)
+                }
             }
         }
+
     }
 
     private fun onItemClicked(model: LovedWordModel) {
@@ -93,10 +87,8 @@ class LovedFragment : Fragment() {
     }
 
     private fun changeSorting(sorting: LovedWordsSorting) {
-        lifecycleScope.launch {
-            adapter?.submitList(lovedService.getAll(sorting))
-            currentSorting = sorting
-        }
+        lovedViewModel.updateLoved(sorting)
+        currentSorting = sorting
     }
 
     override fun onDestroyView() {

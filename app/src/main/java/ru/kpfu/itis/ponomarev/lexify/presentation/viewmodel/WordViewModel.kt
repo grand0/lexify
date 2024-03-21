@@ -14,6 +14,9 @@ import ru.kpfu.itis.ponomarev.lexify.domain.model.WordEtymologiesModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordExampleModel
 import ru.kpfu.itis.ponomarev.lexify.domain.usecase.lists.AddDefinitionUseCase
 import ru.kpfu.itis.ponomarev.lexify.domain.usecase.lists.DeleteDefinitionUseCase
+import ru.kpfu.itis.ponomarev.lexify.domain.usecase.loved.AddLovedUseCase
+import ru.kpfu.itis.ponomarev.lexify.domain.usecase.loved.CheckIfWordIsLovedUseCase
+import ru.kpfu.itis.ponomarev.lexify.domain.usecase.loved.DeleteLovedUseCase
 import ru.kpfu.itis.ponomarev.lexify.domain.usecase.word.GetRelatedWordsUseCase
 import ru.kpfu.itis.ponomarev.lexify.domain.usecase.word.GetWordAudioUseCase
 import ru.kpfu.itis.ponomarev.lexify.domain.usecase.word.GetWordDefinitionsUseCase
@@ -32,6 +35,9 @@ class WordViewModel @Inject constructor(
     private val getWordAudioUseCase: GetWordAudioUseCase,
     private val addDefinitionUseCase: AddDefinitionUseCase,
     private val deleteDefinitionUseCase: DeleteDefinitionUseCase,
+    private val checkIfWordIsLovedUseCase: CheckIfWordIsLovedUseCase,
+    private val deleteLovedUseCase: DeleteLovedUseCase,
+    private val addLovedUseCase: AddLovedUseCase,
     private val exceptionHandler: DictionarySectionExceptionHandler,
 ) : ViewModel() {
 
@@ -50,9 +56,13 @@ class WordViewModel @Inject constructor(
     private val _audioState = MutableStateFlow<List<WordAudioModel>?>(null)
     val audioState get() = _audioState.asStateFlow()
 
+    private val _isLovedState = MutableStateFlow<Boolean>(false)
+    val isLovedState get() = _isLovedState.asStateFlow()
+
     val errorsChannel = Channel<Throwable>(Channel.UNLIMITED)
 
     fun update(word: String) {
+        updateIsLoved(word)
         updateDefinitions(word)
         updateEtymologies(word)
         updateExamples(word)
@@ -119,6 +129,24 @@ class WordViewModel @Inject constructor(
     fun forgetDefinition(id: String, listName: String) {
         viewModelScope.launch {
             deleteDefinitionUseCase(id, listName)
+        }
+    }
+
+    fun updateIsLoved(word: String) {
+        viewModelScope.launch {
+            _isLovedState.value = checkIfWordIsLovedUseCase(word)
+        }
+    }
+
+    fun unlove(word: String) {
+        viewModelScope.launch {
+            deleteLovedUseCase(word)
+        }
+    }
+
+    fun love(word: String) {
+        viewModelScope.launch {
+            addLovedUseCase(word)
         }
     }
 }
