@@ -15,6 +15,7 @@ data class DictionaryAttributionTextModel(val text: String, val url: String) : D
 data class DictionaryRelationshipTypeModel(val type: String) : DictionaryItemModel()
 
 data class DictionaryWordDefinitionModel(
+    val id: String,
     val partOfSpeech: String?,
     val text: String,
     val labels: List<WordDefinitionLabelModel>,

@@ -8,9 +8,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.kpfu.itis.ponomarev.lexify.domain.model.RandomWordModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordOfTheDayModel
-import ru.kpfu.itis.ponomarev.lexify.domain.usecase.GetRandomWordUseCase
-import ru.kpfu.itis.ponomarev.lexify.domain.usecase.GetRandomWordsUseCase
-import ru.kpfu.itis.ponomarev.lexify.domain.usecase.GetWordOfTheDayUseCase
+import ru.kpfu.itis.ponomarev.lexify.domain.usecase.words.GetRandomWordsUseCase
+import ru.kpfu.itis.ponomarev.lexify.domain.usecase.words.GetWordOfTheDayUseCase
 import javax.inject.Inject
 
 @HiltViewModel

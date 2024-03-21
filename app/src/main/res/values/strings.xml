@@ -16,4 +16,7 @@
     <string name="sort_btn_text">sort</string>
     <string name="sort_text">sort</string>
     <string name="empty_text">empty</string>
+    <string name="lists_text">lists</string>
+    <string name="create_text">create</string>
+    <string name="remember_text">remember</string>
 </resources>

@@ -12,12 +12,13 @@ import ru.kpfu.itis.ponomarev.lexify.domain.model.WordAudioModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordDefinitionModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordEtymologiesModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordExampleModel
-import ru.kpfu.itis.ponomarev.lexify.domain.usecase.GetRelatedWordsUseCase
-import ru.kpfu.itis.ponomarev.lexify.domain.usecase.GetWordAudioUseCase
-import ru.kpfu.itis.ponomarev.lexify.domain.usecase.GetWordDefinitionsUseCase
-import ru.kpfu.itis.ponomarev.lexify.domain.usecase.GetWordEtymologiesUseCase
-import ru.kpfu.itis.ponomarev.lexify.domain.usecase.GetWordExamplesUseCase
-import ru.kpfu.itis.ponomarev.lexify.presentation.exception.DictionarySectionException
+import ru.kpfu.itis.ponomarev.lexify.domain.usecase.lists.AddDefinitionUseCase
+import ru.kpfu.itis.ponomarev.lexify.domain.usecase.lists.DeleteDefinitionUseCase
+import ru.kpfu.itis.ponomarev.lexify.domain.usecase.word.GetRelatedWordsUseCase
+import ru.kpfu.itis.ponomarev.lexify.domain.usecase.word.GetWordAudioUseCase
+import ru.kpfu.itis.ponomarev.lexify.domain.usecase.word.GetWordDefinitionsUseCase
+import ru.kpfu.itis.ponomarev.lexify.domain.usecase.word.GetWordEtymologiesUseCase
+import ru.kpfu.itis.ponomarev.lexify.domain.usecase.word.GetWordExamplesUseCase
 import ru.kpfu.itis.ponomarev.lexify.presentation.exception.DictionarySectionExceptionHandler
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionarySection
 import javax.inject.Inject
@@ -29,6 +30,8 @@ class WordViewModel @Inject constructor(
     private val getWordExamplesUseCase: GetWordExamplesUseCase,
     private val getRelatedWordsUseCase: GetRelatedWordsUseCase,
     private val getWordAudioUseCase: GetWordAudioUseCase,
+    private val addDefinitionUseCase: AddDefinitionUseCase,
+    private val deleteDefinitionUseCase: DeleteDefinitionUseCase,
     private val exceptionHandler: DictionarySectionExceptionHandler,
 ) : ViewModel() {
 
@@ -104,6 +107,18 @@ class WordViewModel @Inject constructor(
             } catch (e: Throwable) {
                 errorsChannel.send(exceptionHandler.handleException(e, DictionarySection.AUDIO))
             }
+        }
+    }
+
+    fun rememberDefinition(def: WordDefinitionModel, listName: String, word: String) {
+        viewModelScope.launch {
+            addDefinitionUseCase(def, listName, word)
+        }
+    }
+
+    fun forgetDefinition(id: String, listName: String) {
+        viewModelScope.launch {
+            deleteDefinitionUseCase(id, listName)
         }
     }
 }

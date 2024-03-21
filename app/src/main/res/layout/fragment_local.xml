@@ -42,7 +42,7 @@
             android:textSize="36sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_loved_label"
-            android:text="cat" />
+            tools:text="cat" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -77,7 +77,7 @@
             android:textSize="36sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_lists_label"
-            android:text="animals list" />
+            tools:text="animals list" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -53,7 +53,7 @@ class LovedFragment : Fragment() {
         }
 
         adapter = LovedListAdapter(LovedDiffUtilItemCallback(), ::onItemClicked)
-        binding.rvDictionary.adapter = adapter
+        binding.rvWords.adapter = adapter
 
         adapter?.let { adapter ->
             val itemHorizontalSwipeCallback = ItemHorizontalSwipeCallback(
@@ -78,7 +78,7 @@ class LovedFragment : Fragment() {
                     )
                 )
             )
-            ItemTouchHelper(itemHorizontalSwipeCallback).attachToRecyclerView(binding.rvDictionary)
+            ItemTouchHelper(itemHorizontalSwipeCallback).attachToRecyclerView(binding.rvWords)
 
             lifecycleScope.launch {
                 val list = lovedService.getAll()

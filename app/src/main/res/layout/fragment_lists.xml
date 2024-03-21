@@ -21,13 +21,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="64dp"
-        android:text="@string/loved"
+        android:text="@string/lists_text"
         android:textSize="36sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_words"
+        android:id="@+id/rv_lists"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
@@ -38,7 +38,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
     <Button
-        android:id="@+id/btn_sort"
+        android:id="@+id/btn_create"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -46,7 +46,7 @@
         android:background="@drawable/btn_normal"
         android:minWidth="0dp"
         android:minHeight="40dp"
-        android:text="@string/sort_btn_text"
+        android:text="@string/create_text"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:backgroundTint="@null"

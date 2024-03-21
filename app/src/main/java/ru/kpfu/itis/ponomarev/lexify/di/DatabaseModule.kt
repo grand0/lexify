@@ -21,6 +21,8 @@ object DatabaseModule {
             context,
             LexifyDatabase::class.java,
             "lexify-db",
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }

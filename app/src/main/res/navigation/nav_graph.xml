@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_homeFragment_to_lovedFragment"
             app:destination="@id/lovedFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_listsFragment"
+            app:destination="@id/listsFragment" />
     </fragment>
 
     <fragment
@@ -57,4 +60,30 @@
         android:id="@+id/lovedWordsSortingBottomSheetDialogFragment"
         android:name="ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.dialog.LovedWordsSortingBottomSheetDialogFragment"
         android:label="LovedWordsSortingBottomSheetDialogFragment" />
+    <fragment
+        android:id="@+id/listsFragment"
+        android:name="ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.ListsFragment"
+        android:label="ListsFragment" >
+        <action
+            android:id="@+id/action_listsFragment_to_createListBottomSheetDialogFragment"
+            app:destination="@id/createListBottomSheetDialogFragment" />
+        <action
+            android:id="@+id/action_listsFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/createListBottomSheetDialogFragment"
+        android:name="ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.dialog.CreateListBottomSheetDialogFragment"
+        android:label="CreateListBottomSheetDialogFragment" />
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.ListFragment"
+        android:label="ListFragment" >
+        <argument
+            android:name="listName"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_listFragment_to_wordFragment"
+            app:destination="@id/wordFragment" />
+    </fragment>
 </navigation>

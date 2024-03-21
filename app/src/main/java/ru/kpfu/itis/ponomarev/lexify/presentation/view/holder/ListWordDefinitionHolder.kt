@@ -9,26 +9,23 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.ItemWordDefinitionBinding
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordDefinitionModel
+import ru.kpfu.itis.ponomarev.lexify.presentation.model.ListWordDefinitionItemModel
 
-class WordDefinitionHolder(
+class ListWordDefinitionHolder(
     private val binding: ItemWordDefinitionBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     var copyableText: String = ""
-    var item: DictionaryWordDefinitionModel? = null
+    var item: ListWordDefinitionItemModel? = null
 
-    fun bindItem(item: DictionaryWordDefinitionModel, context: Context) {
+    fun bindItem(item: ListWordDefinitionItemModel, context: Context) {
         copyableText = item.text
         this.item = item
 
         val span = SpannableStringBuilder()
-        val labels = mutableListOf<String>()
-        if (item.partOfSpeech != null) {
-            labels.add(item.partOfSpeech)
-        }
-        labels.addAll(item.labels.map { it.text })
+        val labels = item.labels ?: ""
         if (labels.isNotEmpty()) {
-            span.append(labels.joinToString(", "))
+            span.append(labels)
             span.setSpan(
                 UnderlineSpan(),
                 0,

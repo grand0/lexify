@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -24,9 +23,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.slf4j.LoggerFactory
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentWordBinding
 import ru.kpfu.itis.ponomarev.lexify.domain.model.RelatedWordsModel
@@ -53,6 +50,7 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordExampleMod
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.DictionaryListAdapter
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.callback.ItemHorizontalSwipeCallback
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.decoration.HeaderItemDecoration
+import ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.dialog.ListsSelectorBottomSheetDialog
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.RelatedWordHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordDefinitionHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordEtymologyHolder
@@ -176,7 +174,9 @@ class WordFragment : Fragment() {
                     },
                     right = ItemHorizontalSwipeCallback.ItemSwipeAction("remember") { vh ->
                         dictionaryListAdapter?.notifyItemChanged(vh.adapterPosition)
-                        LoggerFactory.getLogger(this::class.java).error("REMEMBERED")
+                        (vh as WordDefinitionHolder).item?.let {
+                            addDefinitionToList(it)
+                        }
                     }
                 ),
                 RelatedWordHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
@@ -254,6 +254,27 @@ class WordFragment : Fragment() {
         binding.tvWord.text = word
     }
 
+    private fun addDefinitionToList(item: DictionaryWordDefinitionModel) {
+        val model = WordDefinitionModel(
+            id = item.id,
+            partOfSpeech = item.partOfSpeech,
+            attributionText = "",
+            attributionUrl = "",
+            text = item.text,
+            labels = item.labels,
+        )
+        ListsSelectorBottomSheetDialog(
+            definitionId = item.id,
+            selectList = { selector ->
+                if (selector.isChecked) {
+                    viewModel.forgetDefinition(item.id, selector.name)
+                } else {
+                    viewModel.rememberDefinition(model, selector.name, args.word)
+                }
+            }
+        ).show(childFragmentManager, null)
+    }
+
     private fun setLovedButtonState(loved: Boolean) {
         binding.btnLove.apply {
             background = AppCompatResources.getDrawable(requireContext(), if (loved) R.drawable.btn_active else R.drawable.btn_normal)
@@ -318,6 +339,7 @@ class WordFragment : Fragment() {
                 .mapValues { group ->
                     group.value.map {
                         DictionaryWordDefinitionModel(
+                            id = it.id,
                             partOfSpeech = it.partOfSpeech,
                             text = it.text,
                             labels = it.labels,

@@ -25,7 +25,9 @@ class WordRepositoryImpl @Inject constructor(
         return resp
             .filter { it.text != null }
             .map {
+                val id = it.id ?: it.hashCode().toString()
                 WordDefinitionModel(
+                    id = id,
                     partOfSpeech = it.partOfSpeech,
                     attributionText = it.attributionText,
                     attributionUrl = it.attributionUrl,

@@ -1,4 +1,4 @@
-package ru.kpfu.itis.ponomarev.lexify.domain.usecase;
+package ru.kpfu.itis.ponomarev.lexify.domain.usecase.words;
 
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordOfTheDayModel
 import javax.inject.Inject;
