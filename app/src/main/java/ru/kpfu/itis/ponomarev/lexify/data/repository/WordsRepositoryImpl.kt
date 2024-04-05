@@ -3,23 +3,41 @@ package ru.kpfu.itis.ponomarev.lexify.data.repository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.resources.get
-import ru.kpfu.itis.ponomarev.lexify.data.remote.WordsResources
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import ru.kpfu.itis.ponomarev.lexify.data.remote.api.WordsApi
+import ru.kpfu.itis.ponomarev.lexify.data.remote.model.mapper.RandomWordModelMapper
+import ru.kpfu.itis.ponomarev.lexify.data.remote.model.mapper.WordOfTheDayModelMapper
+import ru.kpfu.itis.ponomarev.lexify.data.remote.resources.WordsResources
 import ru.kpfu.itis.ponomarev.lexify.domain.model.RandomWordModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordOfTheDayModel
 import ru.kpfu.itis.ponomarev.lexify.domain.repository.WordsRepository
 import javax.inject.Inject
 
 class WordsRepositoryImpl @Inject constructor(
-    private val http: HttpClient,
+    private val api: WordsApi,
+    private val randomWordModelMapper: RandomWordModelMapper,
+    private val wordOfTheDayModelMapper: WordOfTheDayModelMapper,
 ) : WordsRepository {
 
-    override suspend fun getRandomWord(): RandomWordModel =
-        http.get(WordsResources.RandomWord()).body()
+    override suspend fun getRandomWord(): RandomWordModel {
+        return withContext(Dispatchers.IO) {
+            val data = api.getRandomWord()
+            randomWordModelMapper.mapDataModelToModel(data)
+        }
+    }
 
-    override suspend fun getRandomWords(limit: Int): List<RandomWordModel> =
-        http.get(WordsResources.RandomWords(limit = limit)).body()
+    override suspend fun getRandomWords(limit: Int): List<RandomWordModel> {
+        return withContext(Dispatchers.IO) {
+            val data = api.getRandomWords(limit)
+            data.map(randomWordModelMapper::mapDataModelToModel)
+        }
+    }
 
     override suspend fun getWordOfTheDay(): WordOfTheDayModel {
-        return http.get(WordsResources.WordOfTheDay()).body()
+        return withContext(Dispatchers.IO) {
+            val data = api.getWordOfTheDay()
+            wordOfTheDayModelMapper.mapDataModelToModel(data)
+        }
     }
 }

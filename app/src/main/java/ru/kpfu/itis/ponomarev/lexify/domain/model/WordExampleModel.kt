@@ -1,6 +1,7 @@
 package ru.kpfu.itis.ponomarev.lexify.domain.model
 
 data class WordExampleModel(
+    val id: Int,
     val year: Int?,
     val url: String?,
     val text: String,

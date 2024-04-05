@@ -1,8 +1,8 @@
 package ru.kpfu.itis.ponomarev.lexify.domain.model
 
-import com.google.gson.annotations.SerializedName
+import java.util.Date
 
 data class WordOfTheDayModel(
     val word: String,
-    @SerializedName("pdd") val dateStr: String
+    val date: Date,
 )

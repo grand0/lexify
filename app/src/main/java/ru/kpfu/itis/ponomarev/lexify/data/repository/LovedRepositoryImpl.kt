@@ -1,35 +1,37 @@
-package ru.kpfu.itis.ponomarev.lexify.domain.service
+package ru.kpfu.itis.ponomarev.lexify.data.repository
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.kpfu.itis.ponomarev.lexify.data.local.db.LexifyDatabase
 import ru.kpfu.itis.ponomarev.lexify.data.local.db.entity.LovedWordEntity
+import ru.kpfu.itis.ponomarev.lexify.data.local.db.entity.mapper.LovedWordEntityMapper
 import ru.kpfu.itis.ponomarev.lexify.domain.model.LovedWordModel
-import ru.kpfu.itis.ponomarev.lexify.presentation.sorting.LovedWordsSorting
+import ru.kpfu.itis.ponomarev.lexify.domain.repository.LovedRepository
+import ru.kpfu.itis.ponomarev.lexify.domain.sorting.LovedWordsSorting
 import java.util.Calendar
 import javax.inject.Inject
 
-class LovedService @Inject constructor(
+class LovedRepositoryImpl @Inject constructor(
     private val db: LexifyDatabase,
-) {
-
-    suspend fun getAll(sorting: LovedWordsSorting = LovedWordsSorting.ALPHABETICALLY): List<LovedWordModel> {
+    private val lovedWordEntityMapper: LovedWordEntityMapper,
+) : LovedRepository {
+    override suspend fun getAll(sorting: LovedWordsSorting): List<LovedWordModel> {
         return withContext(Dispatchers.IO) {
             val list = db.lovedDao.getAll()
             when (sorting) {
                 LovedWordsSorting.ALPHABETICALLY -> list.sortedBy { it.word.lowercase() }
                 LovedWordsSorting.RECENT -> list.sortedBy(LovedWordEntity::date).reversed()
-            }.map(::toModel)
+            }.map(lovedWordEntityMapper::mapEntityToModel)
         }
     }
 
-    suspend fun getRecent(count: Int): List<LovedWordModel> {
+    override suspend fun getRecent(limit: Int): List<LovedWordModel> {
         return withContext(Dispatchers.IO) {
-            db.lovedDao.getRecent(count).map(::toModel)
+            db.lovedDao.getRecent(limit).map(lovedWordEntityMapper::mapEntityToModel)
         }
     }
 
-    suspend fun addWord(word: String) {
+    override suspend fun addWord(word: String) {
         withContext(Dispatchers.IO) {
             db.lovedDao.addWord(
                 LovedWordEntity(
@@ -40,19 +42,15 @@ class LovedService @Inject constructor(
         }
     }
 
-    suspend fun deleteWord(word: String) {
+    override suspend fun deleteWord(word: String) {
         withContext(Dispatchers.IO) {
             db.lovedDao.deleteWord(word)
         }
     }
 
-    suspend fun isLoved(word: String): Boolean {
+    override suspend fun isLoved(word: String): Boolean {
         return withContext(Dispatchers.IO) {
             db.lovedDao.isWordExists(word)
         }
     }
-
-    fun toModel(entity: LovedWordEntity) = LovedWordModel(
-        word = entity.word,
-    )
 }

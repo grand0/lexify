@@ -10,7 +10,7 @@ import ru.kpfu.itis.ponomarev.lexify.domain.model.ListModel
 import ru.kpfu.itis.ponomarev.lexify.domain.usecase.lists.CreateListUseCase
 import ru.kpfu.itis.ponomarev.lexify.domain.usecase.lists.DeleteListUseCase
 import ru.kpfu.itis.ponomarev.lexify.domain.usecase.lists.GetAllListsUseCase
-import ru.kpfu.itis.ponomarev.lexify.presentation.sorting.ListsSorting
+import ru.kpfu.itis.ponomarev.lexify.domain.sorting.ListsSorting
 import javax.inject.Inject
 
 @HiltViewModel

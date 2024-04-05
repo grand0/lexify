@@ -8,6 +8,7 @@ import android.text.style.UnderlineSpan
 import androidx.recyclerview.widget.RecyclerView
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.ItemWordDefinitionBinding
+import ru.kpfu.itis.ponomarev.lexify.domain.model.ListDefinitionLabelModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordDefinitionModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.ListWordDefinitionItemModel
 
@@ -23,9 +24,12 @@ class ListWordDefinitionHolder(
         this.item = item
 
         val span = SpannableStringBuilder()
-        val labels = item.labels ?: ""
+        val labels = item.labels.map(ListDefinitionLabelModel::text).toMutableList()
+        if (item.partOfSpeech != null) {
+            labels.add(0, item.partOfSpeech)
+        }
         if (labels.isNotEmpty()) {
-            span.append(labels)
+            span.append(labels.joinToString())
             span.setSpan(
                 UnderlineSpan(),
                 0,

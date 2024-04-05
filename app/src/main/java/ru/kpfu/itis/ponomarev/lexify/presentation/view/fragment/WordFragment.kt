@@ -47,6 +47,7 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordDefinition
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordEtymologyModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordExampleModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.DictionaryListAdapter
+import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.diffutil.DictionaryDiffUtilItemCallback
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.callback.ItemHorizontalSwipeCallback
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.decoration.HeaderItemDecoration
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.dialog.ListsSelectorBottomSheetDialog
@@ -105,6 +106,14 @@ class WordFragment : Fragment() {
 
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvDictionary.layoutManager = layoutManager
+        dictionaryListAdapter = DictionaryListAdapter(
+            DictionaryDiffUtilItemCallback(),
+            requireContext(),
+            ::onAudioPlayClickListener
+        ).also {
+            binding.rvDictionary.adapter = it
+            binding.rvDictionary.addItemDecoration(HeaderItemDecoration(it))
+        }
 
         var isUserScrolling = false
         for (tab in DictionarySection.entries) {
@@ -117,7 +126,7 @@ class WordFragment : Fragment() {
                 if (tab != null && !isUserScrolling) {
                     val tabPos = tab.position
                     val sectionName = DictionarySection.entries[tabPos].sectionName
-                    val sectionPos = dictionaryListAdapter?.items?.indexOfFirst { it is DictionarySectionDividerModel && it.name == sectionName }
+                    val sectionPos = dictionaryListAdapter?.currentList?.indexOfFirst { it is DictionarySectionDividerModel && it.name == sectionName }
                     sectionPos?.let { layoutManager.scrollToPositionWithOffset(sectionPos, 0) }
                 }
             }
@@ -146,7 +155,7 @@ class WordFragment : Fragment() {
 //                    }
                     val itemPosition = layoutManager.findFirstVisibleItemPosition()
                     val section: DictionarySectionDividerModel? =
-                        dictionaryListAdapter?.items?.subList(0, itemPosition + 1)?.last { it is DictionarySectionDividerModel } as DictionarySectionDividerModel?
+                        dictionaryListAdapter?.currentList?.subList(0, itemPosition + 1)?.last { it is DictionarySectionDividerModel } as DictionarySectionDividerModel?
                     if (section != null) {
                         val tabPos = DictionarySection.entries.indexOfFirst { it.sectionName == section.name }
                         binding.tabs.getTabAt(tabPos)?.select()
@@ -206,42 +215,15 @@ class WordFragment : Fragment() {
                 launch { viewModel.audioState.collect { processAudio(it) } }
                 launch {
                     for (error in viewModel.errorsChannel) {
-                        if (error is DictionarySectionException) {
-                            val msg = error.message
-                                ?: when (error) {
-                                    is DictionarySectionNotFoundException -> getString(R.string.found_nothing)
-                                    is DictionarySectionRateLimitException -> {
-                                        if (!rateLimit) {
-                                            rateLimit = true
-                                            Snackbar.make(
-                                                binding.root,
-                                                R.string.too_many_requests_message,
-                                                Snackbar.LENGTH_LONG,
-                                            )
-                                                .setBackgroundTint(requireContext().getColor(R.color.black)) // TODO: change for dark mode
-                                                .show()
-                                        }
-                                        getString(R.string.rate_limit)
-                                    }
-                                    else -> getString(R.string.unknown_error)
-                                }
-                            val itemsList = listOf(
-                                DictionarySectionErrorModel(msg)
-                            )
-                            when (error.section) {
-                                DictionarySection.DEFINITIONS -> wordDefinitionsItems = itemsList
-                                DictionarySection.ETYMOLOGIES -> wordEtymologiesItems = itemsList
-                                DictionarySection.EXAMPLES -> wordExamplesItems = itemsList
-                                DictionarySection.RELATED -> wordRelatedItems = itemsList
-                                DictionarySection.AUDIO -> wordAudioItems = itemsList
-                            }
-                        }
+                        processError(error)
                     }
                 }
             }
         }
 
-        viewModel.update(word)
+        if (savedInstanceState == null) {
+            viewModel.update(word)
+        }
 
         binding.tvWord.text = word
     }
@@ -299,18 +281,12 @@ class WordFragment : Fragment() {
             }
             itemsList.add(DictionarySectionDividerModel(section.sectionName))
             if (sectionItems == null) {
-                itemsList.add(DictionarySectionLoadingModel)
+                itemsList.add(DictionarySectionLoadingModel(section))
             } else {
                 itemsList.addAll(sectionItems)
             }
         }
-        if (dictionaryListAdapter == null) {
-            dictionaryListAdapter = DictionaryListAdapter(itemsList, requireContext(), ::onAudioPlayClickListener)
-            binding.rvDictionary.adapter = dictionaryListAdapter
-            binding.rvDictionary.addItemDecoration(HeaderItemDecoration(dictionaryListAdapter!!))
-        }
-        dictionaryListAdapter?.items = itemsList
-//        binding.rvDictionary.swapAdapter(dictionaryListAdapter, true)
+        dictionaryListAdapter?.submitList(itemsList)
     }
 
     private fun processDefinitions(defs: List<WordDefinitionModel>?) {
@@ -348,7 +324,7 @@ class WordFragment : Fragment() {
     }
 
     private fun processEtymologies(etyms: WordEtymologiesModel?) {
-        wordEtymologiesItems = if (etyms == null) {
+        wordEtymologiesItems = if (etyms?.text == null) {
             null
         } else {
             listOf(
@@ -361,6 +337,7 @@ class WordFragment : Fragment() {
     private fun processExamples(list: List<WordExampleModel>?) {
         wordExamplesItems = list?.map {
             DictionaryWordExampleModel(
+                id = it.id,
                 text = it.text,
                 url = it.url,
                 title = it.title,
@@ -390,13 +367,49 @@ class WordFragment : Fragment() {
     private fun processAudio(list: List<WordAudioModel>?) {
         wordAudioItems = list?.map {
             DictionaryWordAudioModel(
-                it.duration,
-                it.fileUrl,
-                it.attributionText,
-                it.attributionUrl,
+                id = it.id,
+                duration = it.duration,
+                fileUrl = it.fileUrl,
+                attributionText = it.attributionText,
+                attributionUrl = it.attributionUrl,
             )
         }
         processList()
+    }
+
+    private fun processError(error: Throwable) {
+        if (error is DictionarySectionException) {
+            val msg = error.message
+                ?: when (error) {
+                    is DictionarySectionNotFoundException -> getString(R.string.found_nothing)
+                    is DictionarySectionRateLimitException -> {
+                        if (!rateLimit) {
+                            rateLimit = true
+                            Snackbar.make(
+                                binding.root,
+                                R.string.too_many_requests_message,
+                                Snackbar.LENGTH_LONG,
+                            )
+                                .setBackgroundTint(requireContext().getColor(R.color.black)) // TODO: change for dark mode
+                                .show()
+                        }
+                        getString(R.string.rate_limit)
+                    }
+
+                    else -> getString(R.string.unknown_error)
+                }
+            val itemsList = listOf(
+                DictionarySectionErrorModel(msg, error.section)
+            )
+            when (error.section) {
+                DictionarySection.DEFINITIONS -> wordDefinitionsItems = itemsList
+                DictionarySection.ETYMOLOGIES -> wordEtymologiesItems = itemsList
+                DictionarySection.EXAMPLES -> wordExamplesItems = itemsList
+                DictionarySection.RELATED -> wordRelatedItems = itemsList
+                DictionarySection.AUDIO -> wordAudioItems = itemsList
+            }
+            processList()
+        }
     }
 
     private fun onAudioPlayClickListener(url: String) {

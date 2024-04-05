@@ -10,6 +10,7 @@ import ru.kpfu.itis.ponomarev.lexify.domain.model.RandomWordModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordOfTheDayModel
 import ru.kpfu.itis.ponomarev.lexify.domain.usecase.words.GetRandomWordsUseCase
 import ru.kpfu.itis.ponomarev.lexify.domain.usecase.words.GetWordOfTheDayUseCase
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,7 +22,7 @@ class DiscoverViewModel @Inject constructor(
     private val _randomWordsState = MutableStateFlow<List<RandomWordModel>>(listOf())
     val randomWordsState get() = _randomWordsState.asStateFlow()
 
-    private val _wordOfTheDayState = MutableStateFlow(WordOfTheDayModel("", ""))
+    private val _wordOfTheDayState = MutableStateFlow(WordOfTheDayModel("", Calendar.getInstance().time))
     val wordOfTheDayState get() = _wordOfTheDayState.asStateFlow()
 
     init {
