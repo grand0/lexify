@@ -26,7 +26,8 @@ class HeaderItemDecoration(
         val contactPoint = currentHeader.bottom
         val childInContact = getChildInContact(parent, contactPoint) ?: return
 
-        if (listener.isHeader(parent.getChildAdapterPosition(childInContact))) {
+        val pos = parent.getChildAdapterPosition(childInContact)
+        if (pos != RecyclerView.NO_POSITION && listener.isHeader(pos)) {
             moveHeader(c, currentHeader, childInContact)
             return
         }

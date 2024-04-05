@@ -1,4 +1,4 @@
-package ru.kpfu.itis.ponomarev.lexify.data.remote
+package ru.kpfu.itis.ponomarev.lexify.data.remote.resources
 
 import io.ktor.resources.Resource
 

@@ -4,7 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.ItemAttributionTextBinding
@@ -42,16 +43,10 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordExampleHolder
 import java.lang.RuntimeException
 
 class DictionaryListAdapter(
-    items: List<DictionaryItemModel>,
+    diffCallback: DiffUtil.ItemCallback<DictionaryItemModel>,
     private val context: Context,
     private val onAudioPlayClickListener: (url: String) -> Unit,
-) : RecyclerView.Adapter<ViewHolder>(), HeaderItemDecoration.StickyHeaderInterface {
-
-    var items = items
-        set(value) {
-            notifyDataSetChanged()
-            field = value
-        }
+) : ListAdapter<DictionaryItemModel, ViewHolder>(diffCallback), HeaderItemDecoration.StickyHeaderInterface {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = when (viewType) {
         R.layout.item_section_divider -> SectionDividerHolder(
@@ -88,41 +83,42 @@ class DictionaryListAdapter(
         else -> throw RuntimeException("Unknown view holder")
     }
 
-    override fun getItemCount() = items.size
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (holder) {
             is SectionDividerHolder -> {
-                holder.bindItem(items[position] as DictionarySectionDividerModel)
+                holder.bindItem(getItem(position) as DictionarySectionDividerModel)
             }
             is AttributionTextHolder -> {
-                holder.bindItem(items[position] as DictionaryAttributionTextModel, context)
+                holder.bindItem(getItem(position) as DictionaryAttributionTextModel, context)
             }
             is WordDefinitionHolder -> {
-                holder.bindItem(items[position] as DictionaryWordDefinitionModel, context)
+                holder.bindItem(getItem(position) as DictionaryWordDefinitionModel, context)
             }
             is WordExampleHolder -> {
-                holder.bindItem(items[position] as DictionaryWordExampleModel, context)
+                holder.bindItem(getItem(position) as DictionaryWordExampleModel, context)
             }
             is RelatedWordHolder -> {
-                holder.bindItem(items[position] as DictionaryRelatedWordModel)
+                holder.bindItem(getItem(position) as DictionaryRelatedWordModel)
             }
             is RelationshipTypeHolder -> {
-                holder.bindItem(items[position] as DictionaryRelationshipTypeModel)
+                holder.bindItem(getItem(position) as DictionaryRelationshipTypeModel)
             }
             is WordAudioHolder -> {
-                holder.bindItem(items[position] as DictionaryWordAudioModel, context)
+                holder.bindItem(getItem(position) as DictionaryWordAudioModel, context)
             }
             is SectionErrorHolder -> {
-                holder.bindItem(items[position] as DictionarySectionErrorModel)
+                holder.bindItem(getItem(position) as DictionarySectionErrorModel)
             }
             is SectionLoadingHolder -> {
-                holder.bindItem(items[position] as DictionarySectionLoadingModel)
+                holder.bindItem(getItem(position) as DictionarySectionLoadingModel)
+            }
+            is WordEtymologyHolder -> {
+                holder.bindItem(getItem(position) as DictionaryWordEtymologyModel)
             }
         }
     }
 
-    override fun getItemViewType(position: Int): Int = when (items[position]) {
+    override fun getItemViewType(position: Int): Int = when (getItem(position)) {
         is DictionarySectionDividerModel -> R.layout.item_section_divider
         is DictionaryAttributionTextModel -> R.layout.item_attribution_text
         is DictionaryWordDefinitionModel -> R.layout.item_word_definition
@@ -138,7 +134,7 @@ class DictionaryListAdapter(
     override fun getHeaderPositionForItem(pos: Int): Int {
         if (isHeader(pos)) return pos
 
-        return items.subList(0, pos + 1)
+        return currentList.subList(0, pos + 1)
             .indexOfLast { it is DictionarySectionDividerModel }
     }
 
@@ -146,7 +142,7 @@ class DictionaryListAdapter(
 
     override fun bindHeaderData(header: View, pos: Int) {
         try {
-            (items[pos] as? DictionarySectionDividerModel)?.also {
+            (getItem(pos) as? DictionarySectionDividerModel)?.also {
                 SectionDividerHolder(ItemSectionDividerBinding.bind(header)).bindItem(it)
             }
         } catch (e: NullPointerException) { // bind() throws NPE when wrong view is passed
@@ -154,5 +150,5 @@ class DictionaryListAdapter(
         }
     }
 
-    override fun isHeader(pos: Int) = items[pos] is DictionarySectionDividerModel
+    override fun isHeader(pos: Int) = getItem(pos) is DictionarySectionDividerModel
 }

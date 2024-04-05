@@ -1,8 +1,8 @@
-package ru.kpfu.itis.ponomarev.lexify.presentation.sorting
+package ru.kpfu.itis.ponomarev.lexify.domain.sorting
 
 import ru.kpfu.itis.ponomarev.lexify.R
 
-enum class ListsSorting(
+enum class LovedWordsSorting(
     val displayNameId: Int,
 ) {
     ALPHABETICALLY(R.string.alphabetically),

@@ -16,11 +16,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentListBinding
-import ru.kpfu.itis.ponomarev.lexify.domain.model.WordDefinitionLabelModel
-import ru.kpfu.itis.ponomarev.lexify.domain.model.WordDefinitionModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.ListItemModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.ListWordDefinitionItemModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.ListWordItemModel
@@ -91,7 +88,7 @@ class ListFragment : Fragment() {
                         adapter.submitList(emptyList())
                     } else {
                         val items = mutableListOf<ListItemModel>()
-                        model.definitions.forEach { (word, defs) ->
+                        model.forEach { (word, defs) ->
                             items.add(ListWordItemModel(word))
                             items.addAll(
                                 defs.map {
@@ -99,7 +96,7 @@ class ListFragment : Fragment() {
                                         id = it.id,
                                         partOfSpeech = it.partOfSpeech,
                                         text = it.text,
-                                        labels = it.labels.joinToString(transform = WordDefinitionLabelModel::text),
+                                        labels = it.labels,
                                     )
                                 }
                             )

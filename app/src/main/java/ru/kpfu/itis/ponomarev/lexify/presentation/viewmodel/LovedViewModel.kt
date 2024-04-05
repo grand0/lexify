@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import ru.kpfu.itis.ponomarev.lexify.domain.model.LovedWordModel
 import ru.kpfu.itis.ponomarev.lexify.domain.usecase.loved.DeleteLovedUseCase
 import ru.kpfu.itis.ponomarev.lexify.domain.usecase.loved.GetAllLovedUseCase
-import ru.kpfu.itis.ponomarev.lexify.presentation.sorting.LovedWordsSorting
+import ru.kpfu.itis.ponomarev.lexify.domain.sorting.LovedWordsSorting
 import javax.inject.Inject
 
 @HiltViewModel

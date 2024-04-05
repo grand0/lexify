@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.recyclerview)
 
     // test
     testImplementation(libs.junit)
@@ -76,7 +77,7 @@ dependencies {
     // room
     implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.ktx   )
+    implementation(libs.androidx.room.ktx)
 
     // hilt
     implementation(libs.hilt.android)

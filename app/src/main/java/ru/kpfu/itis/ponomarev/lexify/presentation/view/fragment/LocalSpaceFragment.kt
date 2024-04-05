@@ -11,11 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentLocalBinding
-import ru.kpfu.itis.ponomarev.lexify.domain.service.LovedService
 import ru.kpfu.itis.ponomarev.lexify.presentation.animator.StringAnimator
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.LocalSpaceViewModel
 import ru.kpfu.itis.ponomarev.lexify.util.StringInterpolator

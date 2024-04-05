@@ -1,12 +1,12 @@
 package ru.kpfu.itis.ponomarev.lexify.domain.usecase.lists
 
-import ru.kpfu.itis.ponomarev.lexify.domain.service.ListsService
+import ru.kpfu.itis.ponomarev.lexify.domain.repository.ListsRepository
 import javax.inject.Inject
 
 class DeleteListUseCase @Inject constructor(
-    private val listsService: ListsService
+    private val listsRepository: ListsRepository,
 ) {
     suspend operator fun invoke(name: String) {
-        listsService.deleteList(name)
+        listsRepository.deleteList(name)
     }
 }

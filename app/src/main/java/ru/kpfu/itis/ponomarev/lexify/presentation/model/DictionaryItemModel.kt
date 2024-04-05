@@ -4,9 +4,14 @@ import ru.kpfu.itis.ponomarev.lexify.domain.model.WordDefinitionLabelModel
 
 sealed class DictionaryItemModel
 
-data class DictionarySectionErrorModel(val message: String) : DictionaryItemModel()
+data class DictionarySectionErrorModel(
+    val message: String,
+    val section: DictionarySection,
+) : DictionaryItemModel()
 
-data object DictionarySectionLoadingModel : DictionaryItemModel()
+data class DictionarySectionLoadingModel(
+    val section: DictionarySection,
+) : DictionaryItemModel()
 
 data class DictionarySectionDividerModel(val name: String) : DictionaryItemModel()
 
@@ -30,6 +35,7 @@ data class DictionaryRelatedWordModel(
 ) : DictionaryItemModel()
 
 data class DictionaryWordExampleModel(
+    val id: Int,
     val text: String,
     val url: String?,
     val title: String?,
@@ -39,6 +45,7 @@ data class DictionaryWordExampleModel(
 ) : DictionaryItemModel()
 
 data class DictionaryWordAudioModel(
+    val id: Int,
     val duration: Double,
     val fileUrl: String,
     val attributionText: String,

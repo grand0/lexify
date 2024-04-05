@@ -1,12 +1,12 @@
 package ru.kpfu.itis.ponomarev.lexify.domain.usecase.lists
 
-import ru.kpfu.itis.ponomarev.lexify.domain.service.ListsService
+import ru.kpfu.itis.ponomarev.lexify.domain.repository.ListsRepository
 import javax.inject.Inject
 
 class CreateListUseCase @Inject constructor(
-    private val listsService: ListsService
+    private val listsRepository: ListsRepository,
 ) {
     suspend operator fun invoke(name: String) {
-        listsService.createList(name)
+        listsRepository.createList(name)
     }
 }

@@ -1,13 +1,13 @@
 package ru.kpfu.itis.ponomarev.lexify.domain.usecase.lists
 
-import ru.kpfu.itis.ponomarev.lexify.domain.model.ListDefinitionsModel
-import ru.kpfu.itis.ponomarev.lexify.domain.service.ListsService
+import ru.kpfu.itis.ponomarev.lexify.domain.model.ListDefinitionModel
+import ru.kpfu.itis.ponomarev.lexify.domain.repository.ListsRepository
 import javax.inject.Inject
 
 class GetDefinitionsOfListUseCase @Inject constructor(
-    private val service: ListsService,
+    private val listsRepository: ListsRepository,
 ) {
-    suspend operator fun invoke(name: String): ListDefinitionsModel {
-        return service.getDefinitionsOfList(name)
+    suspend operator fun invoke(name: String): List<ListDefinitionModel> {
+        return listsRepository.getDefinitionsOfList(name)
     }
 }

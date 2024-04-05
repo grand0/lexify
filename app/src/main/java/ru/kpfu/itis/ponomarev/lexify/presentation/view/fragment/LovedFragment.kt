@@ -16,8 +16,7 @@ import kotlinx.coroutines.launch
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentLovedBinding
 import ru.kpfu.itis.ponomarev.lexify.databinding.ItemLovedWordBinding
 import ru.kpfu.itis.ponomarev.lexify.domain.model.LovedWordModel
-import ru.kpfu.itis.ponomarev.lexify.domain.service.LovedService
-import ru.kpfu.itis.ponomarev.lexify.presentation.sorting.LovedWordsSorting
+import ru.kpfu.itis.ponomarev.lexify.domain.sorting.LovedWordsSorting
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.LovedListAdapter
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.diffutil.LovedDiffUtilItemCallback
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.callback.ItemHorizontalSwipeCallback

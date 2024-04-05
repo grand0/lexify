@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.DialogLovedWordsSortingBinding
-import ru.kpfu.itis.ponomarev.lexify.presentation.sorting.LovedWordsSorting
+import ru.kpfu.itis.ponomarev.lexify.domain.sorting.LovedWordsSorting
 
 class LovedWordsSortingBottomSheetDialogFragment(
     private val applySorting: (LovedWordsSorting) -> Unit,
