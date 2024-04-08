@@ -34,13 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/btn_normal"
-        android:minWidth="0dp"
-        android:minHeight="40dp"
         android:text="@string/love_btn_text"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,12 +43,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:background="#0fff"
+        android:background="@color/transparent"
         app:layout_constraintTop_toBottomOf="@id/tv_word"
         app:tabContentStart="28dp"
         app:tabGravity="start"
         app:tabIndicator="@drawable/tab_indicator_pill"
-        app:tabIndicatorColor="@color/black"
+        app:tabIndicatorColor="@color/surface_inverse"
         app:tabIndicatorGravity="center"
         app:tabIndicatorFullWidth="true"
         app:tabIndicatorHeight="32dp"
@@ -62,11 +56,11 @@
         app:tabMode="scrollable"
         app:tabPaddingEnd="16dp"
         app:tabPaddingStart="16dp"
-        app:tabTextColor="@color/black"
-        app:tabRippleColor="@color/gray"
+        app:tabTextColor="?android:textColor"
+        app:tabRippleColor="@color/low_emphasis"
         app:tabTextAppearance="@style/Text"
         app:tabSelectedTextAppearance="@style/Text"
-        app:tabSelectedTextColor="@color/white" />
+        app:tabSelectedTextColor="?colorSurface" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_dictionary"

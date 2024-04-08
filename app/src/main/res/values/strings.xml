@@ -22,4 +22,9 @@
     <string name="discover">discover</string>
     <string name="learn">learn</string>
     <string name="recollect">recollect</string>
+    <string name="name">name</string>
+    <string name="lists_separator">lists/</string>
+    <string name="search_hint">search...</string>
+    <string name="word_of_the_day">word of the day</string>
+    <string name="feeling_lucky">feeling lucky?</string>
 </resources>

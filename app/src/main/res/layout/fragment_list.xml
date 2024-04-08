@@ -24,8 +24,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBaseline_toBaselineOf="@id/tv_title"
         android:textSize="16sp"
-        android:textColor="@color/gray"
-        android:text="lists/" />
+        android:textColor="?android:textColorSecondary"
+        android:text="@string/lists_separator" />
 
     <TextView
         android:id="@+id/tv_title"
@@ -48,19 +48,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_sort"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/btn_normal"
-        android:minWidth="0dp"
-        android:minHeight="40dp"
         android:text="@string/sort_btn_text"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 

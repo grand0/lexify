@@ -60,9 +60,9 @@ class LocalSpaceFragment : Fragment() {
 
                         if (words.isEmpty()) {
                             binding.tvLovedWord.text = getString(R.string.empty_text)
-                            binding.tvLovedWord.setTextColor(requireContext().getColor(R.color.gray))
+                            binding.tvLovedWord.setTextColor(requireContext().getColor(R.color.medium_emphasis))
                         } else {
-                            binding.tvLovedWord.setTextColor(requireContext().getColor(R.color.black))
+                            binding.tvLovedWord.setTextColor(requireContext().getColor(R.color.high_emphasis))
                             lovedValueAnimator = StringAnimator(
                                 interpolator = StringInterpolator(
                                     "%s",
@@ -79,9 +79,9 @@ class LocalSpaceFragment : Fragment() {
 
                         if (names.isEmpty()) {
                             binding.tvListsWord.text = getString(R.string.empty_text)
-                            binding.tvListsWord.setTextColor(requireContext().getColor(R.color.gray))
+                            binding.tvListsWord.setTextColor(requireContext().getColor(R.color.medium_emphasis))
                         } else {
-                            binding.tvListsWord.setTextColor(requireContext().getColor(R.color.black))
+                            binding.tvListsWord.setTextColor(requireContext().getColor(R.color.high_emphasis))
                             listsValueAnimator = StringAnimator(
                                 interpolator = StringInterpolator(
                                     "%s",

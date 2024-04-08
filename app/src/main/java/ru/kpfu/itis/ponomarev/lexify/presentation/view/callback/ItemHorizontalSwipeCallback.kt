@@ -23,13 +23,13 @@ class ItemHorizontalSwipeCallback(
 ) : ItemTouchHelper.Callback() {
 
     private val clearPaint = Paint().apply {
-        color = context.getColor(R.color.white)
+        color = context.getColor(R.color.surface)
     }
-    private val backgroundColor = context.getColor(R.color.black) // TODO: needs to change for night mode
+    private val backgroundColor = context.getColor(R.color.surface_inverse)
     private val backgroundDrawable = backgroundColor.toDrawable()
     private val textPaint = Paint().apply {
         typeface = ResourcesCompat.getFont(context, R.font.lato_regular)
-        color = context.getColor(R.color.white)
+        color = context.getColor(R.color.on_surface_inverse)
         textSize = context.spToPx(14)
         textAlign = Paint.Align.CENTER
     }

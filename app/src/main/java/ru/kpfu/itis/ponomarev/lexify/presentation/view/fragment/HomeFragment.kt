@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
                 requireContext(),
                 page.iconDrawable,
             ) as AnimatedVectorDrawable
-//            avd.setTint(com.google.android.material.R.attr.colorOnSurface)
+            avd.setTint(requireContext().getColor(R.color.high_emphasis))
             val iv = ImageView(requireContext()).apply {
                 setImageDrawable(avd)
             }

@@ -37,7 +37,7 @@ class ListWordDefinitionHolder(
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
             )
             span.setSpan(
-                ForegroundColorSpan(context.getColor(R.color.gray)),
+                ForegroundColorSpan(context.getColor(R.color.medium_emphasis)),
                 0,
                 span.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
