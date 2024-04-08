@@ -8,12 +8,14 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.kpfu.itis.ponomarev.lexify.data.local.db.LexifyDatabase
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
     @Provides
+    @Singleton
     fun provideDatabase(
         @ApplicationContext context: Context
     ): LexifyDatabase {

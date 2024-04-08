@@ -19,4 +19,7 @@
     <string name="lists_text">lists</string>
     <string name="create_text">create</string>
     <string name="remember_text">remember</string>
+    <string name="discover">discover</string>
+    <string name="learn">learn</string>
+    <string name="recollect">recollect</string>
 </resources>
