@@ -8,19 +8,25 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import dagger.hilt.android.AndroidEntryPoint
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.HomeFragmentAdapter
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentHomeBinding
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.HomePages
+import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.HomeViewModel
 import ru.kpfu.itis.ponomarev.lexify.util.StringInterpolator
 import ru.kpfu.itis.ponomarev.lexify.util.dpToPx
 import java.util.Calendar
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,10 +81,15 @@ class HomeFragment : Fragment() {
                     pagerIndicatorItems[position]?.start()
                 }
             })
-            setCurrentItem(1, false)
+            setCurrentItem(homeViewModel.currentPageIndex, false)
 
             binding.tvMessage.text = msgInterpolator.interpolate(currentItem.toDouble())
         }
+    }
+
+    override fun onStop() {
+        homeViewModel.currentPageIndex = binding.viewPager.currentItem
+        super.onStop()
     }
 
     override fun onDestroyView() {
