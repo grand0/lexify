@@ -9,11 +9,13 @@ import android.view.inputmethod.EditorInfo
 import androidx.navigation.NavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.DialogCreateListBinding
+import java.util.concurrent.CompletableFuture
 import javax.inject.Inject
 
 class CreateListBottomSheetDialogFragment(
-    private val createList: (String) -> Unit,
+    private val createList: (String) -> CompletableFuture<Boolean>,
 ) : BottomSheetDialogFragment() {
 
     private var _binding: DialogCreateListBinding? = null
@@ -32,8 +34,13 @@ class CreateListBottomSheetDialogFragment(
         binding.etName.setOnEditorActionListener { v, actionId, event ->
             if (v.text.isNotBlank() && (event?.keyCode == KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_DONE)) {
                 val name = v.text.toString()
-                createList(name)
-                dismiss()
+                createList(name).thenAccept { success ->
+                    if (success) {
+                        dismiss()
+                    } else {
+                        binding.etName.error = getString(R.string.list_already_exists)
+                    }
+                }
             }
             true
         }

@@ -97,4 +97,10 @@ class ListsRepositoryImpl @Inject constructor(
             db.listsDao.checkDefinition(id, listName)
         }
     }
+
+    override suspend fun listExists(name: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            db.listsDao.listExists(name)
+        }
+    }
 }

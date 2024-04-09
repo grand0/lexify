@@ -24,6 +24,7 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.dialog.CreateLis
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.ItemListHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.ListsViewModel
 import ru.kpfu.itis.ponomarev.lexify.util.AppNavigator
+import java.util.concurrent.CompletableFuture
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -80,8 +81,8 @@ class ListsFragment : Fragment() {
         }
     }
 
-    private fun createList(name: String) {
-        listsViewModel.createList(name)
+    private fun createList(name: String): CompletableFuture<Boolean> {
+        return listsViewModel.createList(name)
     }
 
     private fun openList(list: ListModel) {

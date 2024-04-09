@@ -14,4 +14,5 @@ interface ListsRepository {
     suspend fun addDefinition(def: WordDefinitionModel, listName: String, word: String)
     suspend fun deleteDefinition(id: String, listName: String)
     suspend fun checkDefinition(id: String, listName: String): Boolean
+    suspend fun listExists(name: String): Boolean
 }

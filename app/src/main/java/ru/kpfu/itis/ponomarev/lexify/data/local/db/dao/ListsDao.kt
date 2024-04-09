@@ -43,4 +43,7 @@ interface ListsDao {
 
     @Query("SELECT :id IN (SELECT id FROM list_definition_cross_ref WHERE name = :listName)")
     fun checkDefinition(id: String, listName: String): Boolean
+
+    @Query("SELECT EXISTS(SELECT * FROM lists WHERE name = :name)")
+    fun listExists(name: String): Boolean
 }

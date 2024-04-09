@@ -47,5 +47,6 @@
     <string name="unknown">Unknown</string>
     <string name="forget">forget</string>
     <string name="destroy">destroy</string>
+    <string name="list_already_exists">List with this name already exists</string>
 
 </resources>
