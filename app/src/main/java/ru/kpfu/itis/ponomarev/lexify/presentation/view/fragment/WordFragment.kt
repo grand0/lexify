@@ -58,7 +58,7 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordDefinitionHold
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordEtymologyHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordExampleHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.WordViewModel
-import ru.kpfu.itis.ponomarev.lexify.util.Keys
+import ru.kpfu.itis.ponomarev.lexify.util.ClipboardUtil
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -69,11 +69,9 @@ class WordFragment : Fragment() {
     private var _binding: FragmentWordBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var navController: NavController
-
-    @Inject
-    lateinit var dictionarySectionHelper: DictionarySectionHelper
+    @Inject lateinit var navController: NavController
+    @Inject lateinit var dictionarySectionHelper: DictionarySectionHelper
+    @Inject lateinit var clipboardUtil: ClipboardUtil
 
     private val args: WordFragmentArgs by navArgs()
 
@@ -84,7 +82,6 @@ class WordFragment : Fragment() {
     private var wordExamplesItems: List<DictionaryItemModel>? = null
     private var wordAudioItems: List<DictionaryItemModel>? = null
 
-    private var clipboardManager: ClipboardManager? = null
     private var mediaPlayer: MediaPlayer? = null
     private var rateLimit = false
 
@@ -99,6 +96,10 @@ class WordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val word = args.word
+
+        binding.tvWord.setOnClickListener {
+            clipboardUtil.copyText(binding.tvWord.text)
+        }
 
         binding.btnLove.setOnClickListener {
             if (viewModel.isLovedState.value) {
@@ -246,13 +247,6 @@ class WordFragment : Fragment() {
             setTextColor(requireContext().getColor(if (loved) R.color.surface else R.color.primary))
             text = getString(if (loved) R.string.unlove else R.string.love_btn_text)
         }
-    }
-
-    private fun copyText(text: String) {
-        if (clipboardManager == null) {
-            clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        }
-        clipboardManager?.setPrimaryClip(ClipData.newPlainText(Keys.CLIPBOARD_TEXT_LABEL, text))
     }
 
     private fun openWord(word: String) {
@@ -420,7 +414,7 @@ class WordFragment : Fragment() {
     private fun copySwipeAction(textProvider: (ViewHolder) -> String) =
         ItemHorizontalSwipeCallback.ItemSwipeAction(getString(R.string.copy)) { vh ->
             dictionaryListAdapter?.notifyItemChanged(vh.bindingAdapterPosition)
-            copyText(textProvider(vh))
+            clipboardUtil.copyText(textProvider(vh))
         }
 
     override fun onDestroyView() {
