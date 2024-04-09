@@ -21,13 +21,11 @@ class LovedViewModel @Inject constructor(
     private val _lovedState = MutableStateFlow<List<LovedWordModel>>(emptyList())
     val lovedState get() = _lovedState.asStateFlow()
 
-    init {
-        updateLoved()
-    }
+    var currentSorting = LovedWordsSorting.ALPHABETICALLY
 
-    fun updateLoved(sorting: LovedWordsSorting = LovedWordsSorting.ALPHABETICALLY) {
+    fun updateLoved() {
         viewModelScope.launch {
-            _lovedState.value = getAllLovedUseCase(sorting)
+            _lovedState.value = getAllLovedUseCase(currentSorting)
         }
     }
 

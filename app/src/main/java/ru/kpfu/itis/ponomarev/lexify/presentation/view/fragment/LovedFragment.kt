@@ -37,8 +37,6 @@ class LovedFragment : Fragment() {
 
     @Inject lateinit var navigator: AppNavigator
 
-    private var currentSorting = LovedWordsSorting.ALPHABETICALLY
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,7 +50,7 @@ class LovedFragment : Fragment() {
         binding.btnSort.setOnClickListener {
             LovedWordsSortingBottomSheetDialogFragment(
                 applySorting = ::changeSorting,
-                currentSorting = currentSorting
+                currentSorting = lovedViewModel.currentSorting
             ).show(childFragmentManager, null)
         }
 
@@ -79,6 +77,7 @@ class LovedFragment : Fragment() {
             }
         }
 
+        lovedViewModel.updateLoved()
     }
 
     private fun onItemClicked(model: LovedWordModel) {
@@ -87,8 +86,8 @@ class LovedFragment : Fragment() {
     }
 
     private fun changeSorting(sorting: LovedWordsSorting) {
-        lovedViewModel.updateLoved(sorting)
-        currentSorting = sorting
+        lovedViewModel.currentSorting = sorting
+        lovedViewModel.updateLoved()
     }
 
     override fun onDestroyView() {
