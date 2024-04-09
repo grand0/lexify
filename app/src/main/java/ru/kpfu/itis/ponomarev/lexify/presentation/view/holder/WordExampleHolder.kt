@@ -40,13 +40,18 @@ class WordExampleHolder(
         binding.tvText.text = span
         
         val sb = StringBuilder()
-        if (item.title != null) sb.append(item.title).append(", ")
-        if (item.author != null) sb.append(item.author).append(", ")
+        val commaSeparator = context.getString(R.string.comma_separator)
+        if (item.title != null) sb.append(item.title).append(commaSeparator)
+        if (item.author != null) sb.append(item.author).append(commaSeparator)
         if (item.year != null) sb.append(item.year)
-        val attrText = sb.toString().removeSuffix(", ")
+        val attrText = sb.toString().removeSuffix(commaSeparator)
         binding.tvAttr.text = attrText
 
-        copyableText = item.text + (if (attrText.isNotEmpty()) " ($attrText)" else "")
+        copyableText = if (attrText.isNotEmpty()) {
+            context.getString(R.string.example_copyable_with_attr, item.text, attrText)
+        } else {
+            context.getString(R.string.example_copyable_without_attr, item.text)
+        }
 
         if (URLUtil.isValidUrl(item.url)) {
             binding.tvAttr.setOnClickListener {

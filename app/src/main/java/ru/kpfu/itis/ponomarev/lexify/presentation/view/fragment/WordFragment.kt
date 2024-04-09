@@ -19,6 +19,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -46,6 +47,7 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordAudioModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordDefinitionModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordEtymologyModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordExampleModel
+import ru.kpfu.itis.ponomarev.lexify.presentation.model.helper.DictionarySectionHelper
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.DictionaryListAdapter
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.diffutil.DictionaryDiffUtilItemCallback
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.callback.ItemHorizontalSwipeCallback
@@ -56,6 +58,7 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordDefinitionHold
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordEtymologyHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordExampleHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.WordViewModel
+import ru.kpfu.itis.ponomarev.lexify.util.Keys
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -68,6 +71,9 @@ class WordFragment : Fragment() {
 
     @Inject
     lateinit var navController: NavController
+
+    @Inject
+    lateinit var dictionarySectionHelper: DictionarySectionHelper
 
     private val args: WordFragmentArgs by navArgs()
 
@@ -116,17 +122,17 @@ class WordFragment : Fragment() {
         }
 
         var isUserScrolling = false
-        for (tab in DictionarySection.entries) {
+        for (tab in dictionarySectionHelper.allTabNames()) {
             binding.tabs.addTab(
-                binding.tabs.newTab().setText(tab.tabName)
+                binding.tabs.newTab().setText(tab)
             )
         }
         binding.tabs.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if (tab != null && !isUserScrolling) {
                     val tabPos = tab.position
-                    val sectionName = DictionarySection.entries[tabPos].sectionName
-                    val sectionPos = dictionaryListAdapter?.currentList?.indexOfFirst { it is DictionarySectionDividerModel && it.name == sectionName }
+                    val section = DictionarySection.entries[tabPos]
+                    val sectionPos = dictionaryListAdapter?.currentList?.indexOfFirst { it is DictionarySectionDividerModel && it.name == dictionarySectionHelper.sectionName(section) }
                     sectionPos?.let { layoutManager.scrollToPositionWithOffset(sectionPos, 0) }
                 }
             }
@@ -154,10 +160,10 @@ class WordFragment : Fragment() {
 //                        layoutManager.findFirstVisibleItemPosition()
 //                    }
                     val itemPosition = layoutManager.findFirstVisibleItemPosition()
-                    val section: DictionarySectionDividerModel? =
+                    val model: DictionarySectionDividerModel? =
                         dictionaryListAdapter?.currentList?.subList(0, itemPosition + 1)?.last { it is DictionarySectionDividerModel } as DictionarySectionDividerModel?
-                    if (section != null) {
-                        val tabPos = DictionarySection.entries.indexOfFirst { it.sectionName == section.name }
+                    if (model != null) {
+                        val tabPos = DictionarySection.entries.indexOfFirst { dictionarySectionHelper.sectionName(it) == model.name }
                         binding.tabs.getTabAt(tabPos)?.select()
                     }
                 }
@@ -168,38 +174,26 @@ class WordFragment : Fragment() {
             requireContext(),
             mapOf(
                 WordDefinitionHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
-                    left = ItemHorizontalSwipeCallback.ItemSwipeAction("copy") { vh ->
-                        dictionaryListAdapter?.notifyItemChanged(vh.adapterPosition)
-                        copyText((vh as WordDefinitionHolder).copyableText)
-                    },
-                    right = ItemHorizontalSwipeCallback.ItemSwipeAction("remember") { vh ->
-                        dictionaryListAdapter?.notifyItemChanged(vh.adapterPosition)
+                    left = copySwipeAction { vh -> (vh as WordDefinitionHolder).copyableText},
+                    right = ItemHorizontalSwipeCallback.ItemSwipeAction(getString(R.string.remember)) { vh ->
+                        dictionaryListAdapter?.notifyItemChanged(vh.bindingAdapterPosition)
                         (vh as WordDefinitionHolder).item?.let {
                             addDefinitionToList(it)
                         }
                     }
                 ),
                 RelatedWordHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
-                    left = ItemHorizontalSwipeCallback.ItemSwipeAction("copy") { vh ->
-                        dictionaryListAdapter?.notifyItemChanged(vh.adapterPosition)
-                        copyText((vh as RelatedWordHolder).word)
-                    },
-                    right = ItemHorizontalSwipeCallback.ItemSwipeAction("see") { vh ->
-                        dictionaryListAdapter?.notifyItemChanged(vh.adapterPosition)
+                    left = copySwipeAction { vh -> (vh as RelatedWordHolder).word},
+                    right = ItemHorizontalSwipeCallback.ItemSwipeAction(getString(R.string.see)) { vh ->
+                        dictionaryListAdapter?.notifyItemChanged(vh.bindingAdapterPosition)
                         openWord((vh as RelatedWordHolder).word)
                     }
                 ),
                 WordEtymologyHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
-                    left = ItemHorizontalSwipeCallback.ItemSwipeAction("copy") { vh ->
-                        dictionaryListAdapter?.notifyItemChanged(vh.adapterPosition)
-                        copyText((vh as WordEtymologyHolder).copyableText)
-                    },
+                    left = copySwipeAction { vh -> (vh as WordEtymologyHolder).copyableText},
                 ),
                 WordExampleHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
-                    left = ItemHorizontalSwipeCallback.ItemSwipeAction("copy") { vh ->
-                        dictionaryListAdapter?.notifyItemChanged(vh.adapterPosition)
-                        copyText((vh as WordExampleHolder).copyableText)
-                    },
+                    left = copySwipeAction { vh -> (vh as WordExampleHolder).copyableText},
                 ),
             )
         )
@@ -253,7 +247,7 @@ class WordFragment : Fragment() {
         binding.btnLove.apply {
             background = AppCompatResources.getDrawable(requireContext(), if (loved) R.drawable.btn_active else R.drawable.btn_normal)
             setTextColor(requireContext().getColor(if (loved) R.color.surface else R.color.primary))
-            text = getString(if (loved) R.string.unlove_btn_text else R.string.love_btn_text)
+            text = getString(if (loved) R.string.unlove else R.string.love_btn_text)
         }
     }
 
@@ -261,7 +255,7 @@ class WordFragment : Fragment() {
         if (clipboardManager == null) {
             clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         }
-        clipboardManager?.setPrimaryClip(ClipData.newPlainText("lexify_copied_text", text))
+        clipboardManager?.setPrimaryClip(ClipData.newPlainText(Keys.CLIPBOARD_TEXT_LABEL, text))
     }
 
     private fun openWord(word: String) {
@@ -279,7 +273,7 @@ class WordFragment : Fragment() {
                 DictionarySection.RELATED -> wordRelatedItems
                 DictionarySection.AUDIO -> wordAudioItems
             }
-            itemsList.add(DictionarySectionDividerModel(section.sectionName))
+            itemsList.add(DictionarySectionDividerModel(dictionarySectionHelper.sectionName(section)))
             if (sectionItems == null) {
                 itemsList.add(DictionarySectionLoadingModel(section))
             } else {
@@ -425,6 +419,12 @@ class WordFragment : Fragment() {
             }
         }
     }
+
+    private fun copySwipeAction(textProvider: (ViewHolder) -> String) =
+        ItemHorizontalSwipeCallback.ItemSwipeAction(getString(R.string.copy)) { vh ->
+            dictionaryListAdapter?.notifyItemChanged(vh.bindingAdapterPosition)
+            copyText(textProvider(vh))
+        }
 
     override fun onDestroyView() {
         _binding = null

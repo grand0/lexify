@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentListsBinding
 import ru.kpfu.itis.ponomarev.lexify.databinding.ItemListBinding
 import ru.kpfu.itis.ponomarev.lexify.domain.model.ListModel
@@ -55,7 +56,7 @@ class ListsFragment : Fragment() {
             requireContext(),
             mapOf(
                 ItemListHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
-                    right = ItemHorizontalSwipeCallback.ItemSwipeAction("destroy") { vh ->
+                    right = ItemHorizontalSwipeCallback.ItemSwipeAction(getString(R.string.destroy)) { vh ->
                         val name = ItemListBinding.bind(vh.itemView).tvName.text.toString()
                         listsViewModel.deleteList(name)
                     }

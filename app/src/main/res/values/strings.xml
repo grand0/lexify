@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">lexify</string>
     <string name="love_btn_text">love</string>
-    <string name="unlove_btn_text">unlove</string>
+    <string name="unlove">unlove</string>
     <string name="unknown_error">an error has occurred</string>
     <string name="found_nothing">found nothing</string>
     <string name="rate_limit">rate limit</string>
@@ -10,6 +10,9 @@
     <string name="random_word_message">lucky charm!</string>
     <string name="audio_duration_text">%1$s sec</string>
     <string name="too_many_requests_message">hey, you\'re making too many requests. slow down!</string>
+    <string name="example_copyable_with_attr">%1$s (%2$s)</string>
+    <string name="example_copyable_without_attr">%1$s</string>
+    <string name="comma_separator">, </string>
     <string name="loved">loved</string>
     <string name="alphabetically">alphabetically</string>
     <string name="recent">recent</string>
@@ -18,13 +21,31 @@
     <string name="empty_text">empty</string>
     <string name="lists_text">lists</string>
     <string name="create_text">create</string>
-    <string name="remember_text">remember</string>
+    <string name="remember">remember</string>
     <string name="discover">discover</string>
     <string name="learn">learn</string>
     <string name="recollect">recollect</string>
     <string name="name">name</string>
     <string name="lists_separator">lists/</string>
-    <string name="search_hint">search...</string>
+    <string name="search_hint">search…</string>
     <string name="word_of_the_day">word of the day</string>
     <string name="feeling_lucky">feeling lucky?</string>
+
+    <string name="definitions_tab">define</string>
+    <string name="definitions_section">definitions</string>
+    <string name="etymologies_tab">discover</string>
+    <string name="etymologies_section">etymologies</string>
+    <string name="examples_tab">observe</string>
+    <string name="examples_section">examples</string>
+    <string name="related_tab">relate</string>
+    <string name="related_section">related words</string>
+    <string name="audio_tab">hear</string>
+    <string name="audio_section">audio</string>
+
+    <string name="copy">copy</string>
+    <string name="see">see</string>
+    <string name="unknown">Unknown</string>
+    <string name="forget">forget</string>
+    <string name="destroy">destroy</string>
+
 </resources>

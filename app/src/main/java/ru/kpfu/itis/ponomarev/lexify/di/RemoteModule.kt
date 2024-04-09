@@ -21,6 +21,7 @@ import ru.kpfu.itis.ponomarev.lexify.data.remote.api.WordApi
 import ru.kpfu.itis.ponomarev.lexify.data.remote.api.WordsApi
 import ru.kpfu.itis.ponomarev.lexify.data.remote.api.impl.WordApiImpl
 import ru.kpfu.itis.ponomarev.lexify.data.remote.api.impl.WordsApiImpl
+import ru.kpfu.itis.ponomarev.lexify.util.Keys
 import javax.inject.Singleton
 
 @Module
@@ -56,9 +57,9 @@ abstract class RemoteModule {
                 expectSuccess = true
 
                 defaultRequest {
-                    url("https://api.wordnik.com/v4/")
+                    url(BuildConfig.WORDNIK_API_KEY)
                     url {
-                        parameters.append("api_key", BuildConfig.WORDNIK_API_KEY)
+                        parameters.append(Keys.API_KEY_KEY, BuildConfig.WORDNIK_API_KEY)
                     }
                 }
             }

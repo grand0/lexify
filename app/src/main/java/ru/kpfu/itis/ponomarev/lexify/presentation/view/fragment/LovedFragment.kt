@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentLovedBinding
 import ru.kpfu.itis.ponomarev.lexify.databinding.ItemLovedWordBinding
 import ru.kpfu.itis.ponomarev.lexify.domain.model.LovedWordModel
@@ -62,7 +63,7 @@ class LovedFragment : Fragment() {
             requireContext(),
             mapOf(
                 LovedWordHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
-                    right = ItemHorizontalSwipeCallback.ItemSwipeAction("unlove") { vh ->
+                    right = ItemHorizontalSwipeCallback.ItemSwipeAction(getString(R.string.unlove)) { vh ->
                         lovedViewModel.unlove(ItemLovedWordBinding.bind(vh.itemView).tvWord.text.toString())
                     }
                 )

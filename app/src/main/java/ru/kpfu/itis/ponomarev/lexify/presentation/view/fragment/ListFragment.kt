@@ -17,6 +17,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentListBinding
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.ListItemModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.ListWordDefinitionItemModel
@@ -26,6 +27,7 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.diffutil.ListDiff
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.callback.ItemHorizontalSwipeCallback
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.ListWordDefinitionHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.ListViewModel
+import ru.kpfu.itis.ponomarev.lexify.util.Keys
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -65,13 +67,13 @@ class ListFragment : Fragment() {
             requireContext(),
             mapOf(
                 ListWordDefinitionHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
-                    left = ItemHorizontalSwipeCallback.ItemSwipeAction("copy") { vh ->
+                    left = ItemHorizontalSwipeCallback.ItemSwipeAction(getString(R.string.copy)) { vh ->
                         (vh as? ListWordDefinitionHolder)?.copyableText?.let {
-                            adapter.notifyItemChanged(vh.adapterPosition)
+                            adapter.notifyItemChanged(vh.bindingAdapterPosition)
                             copyText(it)
                         }
                     },
-                    right = ItemHorizontalSwipeCallback.ItemSwipeAction("forget") { vh ->
+                    right = ItemHorizontalSwipeCallback.ItemSwipeAction(getString(R.string.forget)) { vh ->
                         (vh as? ListWordDefinitionHolder)?.item?.id?.let {
                             deleteDefinition(it)
                         }
@@ -114,7 +116,7 @@ class ListFragment : Fragment() {
         if (clipboardManager == null) {
             clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         }
-        clipboardManager?.setPrimaryClip(ClipData.newPlainText("lexify_copied_text", text))
+        clipboardManager?.setPrimaryClip(ClipData.newPlainText(Keys.CLIPBOARD_TEXT_LABEL, text))
     }
 
     private fun goToWord(word: String) {
