@@ -17,9 +17,9 @@
 
     <ImageView
         android:id="@+id/iv_night_mode_btn"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_margin="16dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:padding="16dp"
         android:src="@drawable/dark_mode_black_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
