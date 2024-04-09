@@ -22,7 +22,7 @@ class LocalSpaceViewModel @Inject constructor(
     private val _recentListsState = MutableStateFlow<List<String>>(emptyList())
     val recentListsState get() = _recentListsState.asStateFlow()
 
-    init {
+    fun updateAll() {
         updateLoved()
         updateLists()
     }

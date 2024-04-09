@@ -93,6 +93,8 @@ class LocalSpaceFragment : Fragment() {
                 }
             }
         }
+
+        localSpaceViewModel.updateAll()
     }
 
     override fun onDestroyView() {
