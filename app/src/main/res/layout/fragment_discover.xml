@@ -11,6 +11,7 @@
     android:showDividers="middle">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_wotd_block"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -45,6 +46,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_rw_block"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

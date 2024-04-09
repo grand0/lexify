@@ -12,6 +12,7 @@
     android:showDividers="middle">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_loved_block"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -19,7 +20,7 @@
             android:id="@+id/tv_loved_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="loved"
+            android:text="@string/loved"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -47,6 +48,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_lists_block"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -54,7 +56,7 @@
             android:id="@+id/tv_lists_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="lists"
+            android:text="@string/lists_text"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

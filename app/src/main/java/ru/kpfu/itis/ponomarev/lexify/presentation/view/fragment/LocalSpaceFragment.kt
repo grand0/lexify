@@ -43,11 +43,11 @@ class LocalSpaceFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.tvLovedWord.setOnClickListener {
+        binding.clLovedBlock.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToLovedFragment()
             navController.navigate(action)
         }
-        binding.tvListsWord.setOnClickListener {
+        binding.clListsBlock.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToListsFragment()
             navController.navigate(action)
         }

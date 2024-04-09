@@ -62,14 +62,14 @@ class DiscoverFragment : Fragment() {
             }
         }
 
-        binding.tvWotdWord.setOnClickListener {
+        binding.clWotdBlock.setOnClickListener {
             if (viewModel.wordOfTheDayState.value.word.isNotEmpty()) {
                 val word = viewModel.wordOfTheDayState.value.word
                 val action = HomeFragmentDirections.actionHomeFragmentToWordFragment(word)
                 navController.navigate(action)
             }
         }
-        binding.tvRwWord.setOnClickListener {
+        binding.clRwBlock.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToRandomWordRouletteFragment()
             navController.navigate(action)
         }
