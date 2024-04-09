@@ -115,7 +115,8 @@ class WordFragment : Fragment() {
         dictionaryListAdapter = DictionaryListAdapter(
             DictionaryDiffUtilItemCallback(),
             requireContext(),
-            ::onAudioPlayClickListener
+            ::onAudioPlayClickListener,
+            ::openWord,
         ).also {
             binding.rvDictionary.adapter = it
             binding.rvDictionary.addItemDecoration(HeaderItemDecoration(it))
@@ -184,10 +185,6 @@ class WordFragment : Fragment() {
                 ),
                 RelatedWordHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
                     left = copySwipeAction { vh -> (vh as RelatedWordHolder).word},
-                    right = ItemHorizontalSwipeCallback.ItemSwipeAction(getString(R.string.see)) { vh ->
-                        dictionaryListAdapter?.notifyItemChanged(vh.bindingAdapterPosition)
-                        openWord((vh as RelatedWordHolder).word)
-                    }
                 ),
                 WordEtymologyHolder::class to ItemHorizontalSwipeCallback.ItemHorizontalSwipeActions(
                     left = copySwipeAction { vh -> (vh as WordEtymologyHolder).copyableText},

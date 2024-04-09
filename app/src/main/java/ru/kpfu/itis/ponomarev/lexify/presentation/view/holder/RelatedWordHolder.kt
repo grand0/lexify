@@ -6,13 +6,16 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryRelatedWordMod
 
 class RelatedWordHolder(
     private val binding: ItemWordRelatedBinding,
+    private val onItemClickListener: (String) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     var word: String = ""
 
     fun bindItem(item: DictionaryRelatedWordModel) {
         word = item.word
-
         binding.tvText.text = item.word
+        binding.root.setOnClickListener {
+            onItemClickListener(word)
+        }
     }
 }

@@ -46,6 +46,7 @@ class DictionaryListAdapter(
     diffCallback: DiffUtil.ItemCallback<DictionaryItemModel>,
     private val context: Context,
     private val onAudioPlayClickListener: (url: String) -> Unit,
+    private val onWordClickListener: (word: String) -> Unit,
 ) : ListAdapter<DictionaryItemModel, ViewHolder>(diffCallback), HeaderItemDecoration.StickyHeaderInterface {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = when (viewType) {
@@ -65,7 +66,8 @@ class DictionaryListAdapter(
             binding = ItemWordExampleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
         R.layout.item_word_related -> RelatedWordHolder(
-            binding = ItemWordRelatedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            binding = ItemWordRelatedBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            onItemClickListener = onWordClickListener,
         )
         R.layout.item_relationship_type_text -> RelationshipTypeHolder(
             binding = ItemRelationshipTypeTextBinding.inflate(LayoutInflater.from(parent.context), parent, false)
