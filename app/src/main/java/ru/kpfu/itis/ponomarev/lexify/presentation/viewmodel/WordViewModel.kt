@@ -56,8 +56,11 @@ class WordViewModel @Inject constructor(
     private val _audioState = MutableStateFlow<List<WordAudioModel>?>(null)
     val audioState get() = _audioState.asStateFlow()
 
-    private val _isLovedState = MutableStateFlow<Boolean>(false)
+    private val _isLovedState = MutableStateFlow(false)
     val isLovedState get() = _isLovedState.asStateFlow()
+
+    var isUpdated = false
+        private set
 
     val errorsChannel = Channel<Throwable>(Channel.UNLIMITED)
 
@@ -68,6 +71,7 @@ class WordViewModel @Inject constructor(
         updateExamples(word)
         updateRelatedWords(word)
         updateAudio(word)
+        isUpdated = true
     }
 
     fun updateDefinitions(word: String) {
