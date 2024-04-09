@@ -1,20 +1,19 @@
 package ru.kpfu.itis.ponomarev.lexify.di
 
-import android.app.Activity
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
-import ru.kpfu.itis.ponomarev.lexify.R
+import dagger.hilt.android.scopes.ActivityScoped
+import ru.kpfu.itis.ponomarev.lexify.util.AppNavigator
+import ru.kpfu.itis.ponomarev.lexify.util.AppNavigatorImpl
+import javax.inject.Singleton
 
 @Module
 @InstallIn(ActivityComponent::class)
-object MainActivityModule {
+abstract class MainActivityModule {
 
-    @Provides
-    fun provideNavController(activity: Activity): NavController {
-        return activity.findNavController(R.id.nav_host_fragment_container)
-    }
+    @Binds
+    @ActivityScoped
+    abstract fun bindNavigator(impl: AppNavigatorImpl): AppNavigator
 }

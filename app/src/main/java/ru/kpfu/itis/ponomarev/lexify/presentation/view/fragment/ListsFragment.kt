@@ -23,6 +23,7 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.view.callback.ItemHorizontalSw
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.dialog.CreateListBottomSheetDialogFragment
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.ItemListHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.ListsViewModel
+import ru.kpfu.itis.ponomarev.lexify.util.AppNavigator
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,8 +34,7 @@ class ListsFragment : Fragment() {
     private var _binding: FragmentListsBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var navController: NavController
+    @Inject lateinit var navigator: AppNavigator
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,7 +86,7 @@ class ListsFragment : Fragment() {
 
     private fun openList(list: ListModel) {
         val action = ListsFragmentDirections.actionListsFragmentToListFragment(list.name)
-        navController.navigate(action)
+        navigator.navController.navigate(action)
     }
 
     override fun onDestroyView() {

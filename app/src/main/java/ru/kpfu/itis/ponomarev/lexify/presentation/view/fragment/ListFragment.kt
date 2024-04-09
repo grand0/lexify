@@ -27,6 +27,7 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.diffutil.ListDiff
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.callback.ItemHorizontalSwipeCallback
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.ListWordDefinitionHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.ListViewModel
+import ru.kpfu.itis.ponomarev.lexify.util.AppNavigator
 import ru.kpfu.itis.ponomarev.lexify.util.ClipboardUtil
 import javax.inject.Inject
 
@@ -38,7 +39,7 @@ class ListFragment : Fragment() {
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
 
-    @Inject lateinit var navController: NavController
+    @Inject lateinit var navigator: AppNavigator
     @Inject lateinit var clipboardUtil: ClipboardUtil
 
     private val args: ListFragmentArgs by navArgs()
@@ -113,7 +114,7 @@ class ListFragment : Fragment() {
 
     private fun goToWord(word: String) {
         val action = ListFragmentDirections.actionListFragmentToWordFragment(word)
-        navController.navigate(action)
+        navigator.navController.navigate(action)
     }
 
     private fun deleteDefinition(id: String) {

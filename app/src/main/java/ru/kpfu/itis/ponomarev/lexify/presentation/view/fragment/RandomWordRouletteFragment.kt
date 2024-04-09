@@ -25,6 +25,7 @@ import kotlinx.coroutines.launch
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentRandomWordRouletteBinding
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.RandomWordRouletteViewModel
+import ru.kpfu.itis.ponomarev.lexify.util.AppNavigator
 import ru.kpfu.itis.ponomarev.lexify.util.dpToPx
 import javax.inject.Inject
 
@@ -36,8 +37,7 @@ class RandomWordRouletteFragment : Fragment() {
     private var _binding: FragmentRandomWordRouletteBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var navController: NavController
+    @Inject lateinit var navigator: AppNavigator
 
     var valueAnimator: ValueAnimator? = null
 
@@ -107,7 +107,7 @@ class RandomWordRouletteFragment : Fragment() {
                                     NavOptions.Builder()
                                         .setPopUpTo(R.id.homeFragment, false)
                                         .build().let {
-                                            navController.navigate(action, it)
+                                            navigator.navController.navigate(action, it)
                                         }
                                 }
 

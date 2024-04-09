@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentDiscoverBinding
 import ru.kpfu.itis.ponomarev.lexify.presentation.animator.StringAnimator
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.DiscoverViewModel
+import ru.kpfu.itis.ponomarev.lexify.util.AppNavigator
 import ru.kpfu.itis.ponomarev.lexify.util.StringInterpolator
 import javax.inject.Inject
 
@@ -26,8 +27,7 @@ class DiscoverFragment : Fragment() {
     private var _binding: FragmentDiscoverBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var navController: NavController
+    @Inject lateinit var navigator: AppNavigator
 
     private var randomWordAnimator: StringAnimator? = null
 
@@ -66,12 +66,12 @@ class DiscoverFragment : Fragment() {
             if (viewModel.wordOfTheDayState.value.word.isNotEmpty()) {
                 val word = viewModel.wordOfTheDayState.value.word
                 val action = HomeFragmentDirections.actionHomeFragmentToWordFragment(word)
-                navController.navigate(action)
+                navigator.navController.navigate(action)
             }
         }
         binding.clRwBlock.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToRandomWordRouletteFragment()
-            navController.navigate(action)
+            navigator.navController.navigate(action)
         }
     }
 

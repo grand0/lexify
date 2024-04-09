@@ -16,6 +16,7 @@ import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentLocalBinding
 import ru.kpfu.itis.ponomarev.lexify.presentation.animator.StringAnimator
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.LocalSpaceViewModel
+import ru.kpfu.itis.ponomarev.lexify.util.AppNavigator
 import ru.kpfu.itis.ponomarev.lexify.util.StringInterpolator
 import javax.inject.Inject
 
@@ -27,8 +28,7 @@ class LocalSpaceFragment : Fragment() {
     private var _binding: FragmentLocalBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var navController: NavController
+    @Inject lateinit var navigator: AppNavigator
 
     private var lovedValueAnimator: StringAnimator? = null
     private var listsValueAnimator: StringAnimator? = null
@@ -45,11 +45,11 @@ class LocalSpaceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.clLovedBlock.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToLovedFragment()
-            navController.navigate(action)
+            navigator.navController.navigate(action)
         }
         binding.clListsBlock.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToListsFragment()
-            navController.navigate(action)
+            navigator.navController.navigate(action)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

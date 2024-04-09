@@ -58,6 +58,7 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordDefinitionHold
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordEtymologyHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordExampleHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.WordViewModel
+import ru.kpfu.itis.ponomarev.lexify.util.AppNavigator
 import ru.kpfu.itis.ponomarev.lexify.util.ClipboardUtil
 import javax.inject.Inject
 
@@ -69,7 +70,7 @@ class WordFragment : Fragment() {
     private var _binding: FragmentWordBinding? = null
     private val binding get() = _binding!!
 
-    @Inject lateinit var navController: NavController
+    @Inject lateinit var navigator: AppNavigator
     @Inject lateinit var dictionarySectionHelper: DictionarySectionHelper
     @Inject lateinit var clipboardUtil: ClipboardUtil
 
@@ -251,7 +252,7 @@ class WordFragment : Fragment() {
 
     private fun openWord(word: String) {
         val action = WordFragmentDirections.actionWordFragmentSelf(word)
-        navController.navigate(action) // TODO: this breaks current word screen. need to add state saving/restoring
+        navigator.navController.navigate(action) // TODO: this breaks current word screen. need to add state saving/restoring
     }
 
     private fun processList() {

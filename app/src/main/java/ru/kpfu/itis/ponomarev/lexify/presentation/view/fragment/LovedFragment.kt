@@ -24,6 +24,7 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.view.callback.ItemHorizontalSw
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.dialog.LovedWordsSortingBottomSheetDialogFragment
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.LovedWordHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.LovedViewModel
+import ru.kpfu.itis.ponomarev.lexify.util.AppNavigator
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -34,8 +35,7 @@ class LovedFragment : Fragment() {
     private var _binding: FragmentLovedBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var navController: NavController
+    @Inject lateinit var navigator: AppNavigator
 
     private var currentSorting = LovedWordsSorting.ALPHABETICALLY
 
@@ -83,7 +83,7 @@ class LovedFragment : Fragment() {
 
     private fun onItemClicked(model: LovedWordModel) {
         val action = LovedFragmentDirections.actionLovedFragmentToWordFragment(model.word)
-        navController.navigate(action)
+        navigator.navController.navigate(action)
     }
 
     private fun changeSorting(sorting: LovedWordsSorting) {

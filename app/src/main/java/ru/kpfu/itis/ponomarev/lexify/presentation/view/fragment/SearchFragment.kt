@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentSearchBinding
+import ru.kpfu.itis.ponomarev.lexify.util.AppNavigator
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -20,8 +21,7 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var navController: NavController
+    @Inject lateinit var navigator: AppNavigator
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +37,7 @@ class SearchFragment : Fragment() {
             if (v.text.isNotBlank() && (event?.keyCode == KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_SEARCH)) {
                 val word = v.text.toString()
                 val action = HomeFragmentDirections.actionHomeFragmentToWordFragment(word)
-                navController.navigate(action)
+                navigator.navController.navigate(action)
             }
             true
         }
