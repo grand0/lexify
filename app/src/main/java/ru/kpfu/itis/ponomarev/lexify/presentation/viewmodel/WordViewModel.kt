@@ -1,6 +1,5 @@
 package ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -142,12 +141,14 @@ class WordViewModel @Inject constructor(
     fun unlove(word: String) {
         viewModelScope.launch {
             deleteLovedUseCase(word)
+            updateIsLoved(word)
         }
     }
 
     fun love(word: String) {
         viewModelScope.launch {
             addLovedUseCase(word)
+            updateIsLoved(word)
         }
     }
 }
