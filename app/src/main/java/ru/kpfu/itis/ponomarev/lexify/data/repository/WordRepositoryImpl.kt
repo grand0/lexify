@@ -43,7 +43,9 @@ class WordRepositoryImpl @Inject constructor(
     override suspend fun getExamples(word: String): List<WordExampleModel> {
         return withContext(Dispatchers.IO) {
             val data = api.getExamples(word)
-            data.examples.map(wordExampleModelMapper::mapDataModelToModel)
+            data.examples
+                .distinctBy { it.text }
+                .map(wordExampleModelMapper::mapDataModelToModel)
         }
     }
 
