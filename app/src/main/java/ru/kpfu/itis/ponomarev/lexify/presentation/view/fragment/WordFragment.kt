@@ -252,7 +252,7 @@ class WordFragment : Fragment() {
     private fun setLovedButtonState(loved: Boolean) {
         binding.btnLove.apply {
             background = AppCompatResources.getDrawable(requireContext(), if (loved) R.drawable.btn_active else R.drawable.btn_normal)
-            setTextColor(requireContext().getColor(if (loved) R.color.surface else R.color.high_emphasis))
+            setTextColor(requireContext().getColor(if (loved) R.color.surface else R.color.primary))
             text = getString(if (loved) R.string.unlove_btn_text else R.string.love_btn_text)
         }
     }
@@ -390,7 +390,7 @@ class WordFragment : Fragment() {
                                 R.string.too_many_requests_message,
                                 Snackbar.LENGTH_LONG,
                             )
-                                .setBackgroundTint(requireContext().getColor(R.color.surface_inverse))
+                                .setBackgroundTint(requireContext().getColor(R.color.primary))
                                 .show()
                         }
                         getString(R.string.rate_limit)

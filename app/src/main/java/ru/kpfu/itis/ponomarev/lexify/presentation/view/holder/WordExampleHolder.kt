@@ -25,13 +25,13 @@ class WordExampleHolder(
         item.text.indexesOf(item.word)
             .forEach {
                 span.setSpan(
-                    BackgroundColorSpan(context.getColor(R.color.surface_inverse)),
+                    BackgroundColorSpan(context.getColor(R.color.primary)),
                     it,
                     it + (item.word?.length ?: 0),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
                 )
                 span.setSpan(
-                    ForegroundColorSpan(context.getColor(R.color.on_surface_inverse)),
+                    ForegroundColorSpan(context.getColor(R.color.on_primary)),
                     it,
                     it + (item.word?.length ?: 0),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,

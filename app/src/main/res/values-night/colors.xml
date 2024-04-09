@@ -5,6 +5,6 @@
     <color name="low_emphasis">#61FFFFFF</color>
     <color name="surface">#FF121212</color>
     <color name="surface_transparent">#7F121212</color>
-    <color name="surface_inverse">#FFFFFFFF</color>
-    <color name="on_surface_inverse">#DE000000</color>
+    <color name="primary">#FFFFFFFF</color>
+    <color name="on_primary">#DE000000</color>
 </resources>

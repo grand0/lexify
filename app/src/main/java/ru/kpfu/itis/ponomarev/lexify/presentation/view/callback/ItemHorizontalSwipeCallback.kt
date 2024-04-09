@@ -3,8 +3,6 @@ package ru.kpfu.itis.ponomarev.lexify.presentation.view.callback
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toDrawable
@@ -25,11 +23,11 @@ class ItemHorizontalSwipeCallback(
     private val clearPaint = Paint().apply {
         color = context.getColor(R.color.surface)
     }
-    private val backgroundColor = context.getColor(R.color.surface_inverse)
+    private val backgroundColor = context.getColor(R.color.primary)
     private val backgroundDrawable = backgroundColor.toDrawable()
     private val textPaint = Paint().apply {
         typeface = ResourcesCompat.getFont(context, R.font.lato_regular)
-        color = context.getColor(R.color.on_surface_inverse)
+        color = context.getColor(R.color.on_primary)
         textSize = context.spToPx(14)
         textAlign = Paint.Align.CENTER
     }

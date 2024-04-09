@@ -48,7 +48,7 @@
         app:tabContentStart="28dp"
         app:tabGravity="start"
         app:tabIndicator="@drawable/tab_indicator_pill"
-        app:tabIndicatorColor="@color/surface_inverse"
+        app:tabIndicatorColor="@color/primary"
         app:tabIndicatorGravity="center"
         app:tabIndicatorFullWidth="true"
         app:tabIndicatorHeight="32dp"
@@ -60,7 +60,7 @@
         app:tabRippleColor="@color/low_emphasis"
         app:tabTextAppearance="@style/Text"
         app:tabSelectedTextAppearance="@style/Text"
-        app:tabSelectedTextColor="?colorSurface" />
+        app:tabSelectedTextColor="?colorOnPrimary" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_dictionary"
