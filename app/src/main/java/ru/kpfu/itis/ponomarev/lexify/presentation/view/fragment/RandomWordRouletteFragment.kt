@@ -125,7 +125,10 @@ class RandomWordRouletteFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        valueAnimator?.cancel()
+        valueAnimator?.apply {
+            removeAllListeners()
+            cancel()
+        }
         _binding = null
         super.onDestroyView()
     }
