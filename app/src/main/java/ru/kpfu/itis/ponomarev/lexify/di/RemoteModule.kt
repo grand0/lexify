@@ -57,7 +57,7 @@ abstract class RemoteModule {
                 expectSuccess = true
 
                 defaultRequest {
-                    url(BuildConfig.WORDNIK_API_KEY)
+                    url(BuildConfig.WORDNIK_API_BASE_URL)
                     url {
                         parameters.append(Keys.API_KEY_KEY, BuildConfig.WORDNIK_API_KEY)
                     }

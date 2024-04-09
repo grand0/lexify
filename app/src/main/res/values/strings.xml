@@ -12,7 +12,7 @@
     <string name="too_many_requests_message">hey, you\'re making too many requests. slow down!</string>
     <string name="example_copyable_with_attr">%1$s (%2$s)</string>
     <string name="example_copyable_without_attr">%1$s</string>
-    <string name="comma_separator">, </string>
+    <string name="comma_separator">,\u0020</string>
     <string name="loved">loved</string>
     <string name="alphabetically">alphabetically</string>
     <string name="recent">recent</string>
