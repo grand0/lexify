@@ -32,12 +32,12 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.exception.DictionarySectionExc
 import ru.kpfu.itis.ponomarev.lexify.presentation.exception.DictionarySectionNotFoundException
 import ru.kpfu.itis.ponomarev.lexify.presentation.exception.DictionarySectionRateLimitException
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryAttributionTextModel
-import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionarySectionErrorModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryItemModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryRelatedWordModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryRelationshipTypeModel
-import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionarySectionDividerModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionarySection
+import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionarySectionDividerModel
+import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionarySectionErrorModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionarySectionLoadingModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordAudioModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordDefinitionModel

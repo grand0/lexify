@@ -12,9 +12,9 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import dagger.hilt.android.AndroidEntryPoint
 import ru.kpfu.itis.ponomarev.lexify.R
-import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.HomeFragmentAdapter
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentHomeBinding
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.HomePages
+import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.HomeFragmentAdapter
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.HomeViewModel
 import ru.kpfu.itis.ponomarev.lexify.util.StringInterpolator
 import ru.kpfu.itis.ponomarev.lexify.util.dpToPx

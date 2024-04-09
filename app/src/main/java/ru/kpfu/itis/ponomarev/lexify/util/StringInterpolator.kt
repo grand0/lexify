@@ -1,8 +1,6 @@
 package ru.kpfu.itis.ponomarev.lexify.util
 
 import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
 import kotlin.math.roundToInt
 
 class StringInterpolator(val template: String, val substitutions: List<String>, val useBlankSpaceChar: Boolean = false) {

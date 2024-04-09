@@ -9,7 +9,6 @@ import androidx.room.PrimaryKey
 import androidx.room.Relation
 import androidx.room.TypeConverters
 import ru.kpfu.itis.ponomarev.lexify.data.local.db.converter.Converters
-import ru.kpfu.itis.ponomarev.lexify.data.local.db.entity.mapper.ListDefinitionEntityMapper
 import java.util.Date
 
 @Entity(tableName = "lists")

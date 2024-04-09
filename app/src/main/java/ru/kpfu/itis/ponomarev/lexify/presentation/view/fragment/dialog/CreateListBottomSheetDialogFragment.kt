@@ -6,13 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.navigation.NavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import dagger.hilt.android.AndroidEntryPoint
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.DialogCreateListBinding
 import java.util.concurrent.CompletableFuture
-import javax.inject.Inject
 
 class CreateListBottomSheetDialogFragment(
     private val createList: (String) -> CompletableFuture<Boolean>,

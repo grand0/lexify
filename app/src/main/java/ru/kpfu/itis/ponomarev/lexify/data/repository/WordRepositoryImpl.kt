@@ -1,6 +1,5 @@
 package ru.kpfu.itis.ponomarev.lexify.data.repository
 
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.kpfu.itis.ponomarev.lexify.data.remote.api.WordApi

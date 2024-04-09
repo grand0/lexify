@@ -6,7 +6,6 @@ import io.ktor.client.plugins.resources.get
 import ru.kpfu.itis.ponomarev.lexify.data.remote.api.WordApi
 import ru.kpfu.itis.ponomarev.lexify.data.remote.model.WordAudioDataModel
 import ru.kpfu.itis.ponomarev.lexify.data.remote.model.WordDefinitionDataModel
-import ru.kpfu.itis.ponomarev.lexify.data.remote.model.WordExampleDataModel
 import ru.kpfu.itis.ponomarev.lexify.data.remote.model.WordExamplesDataModel
 import ru.kpfu.itis.ponomarev.lexify.data.remote.model.WordRelatedWordsDataModel
 import ru.kpfu.itis.ponomarev.lexify.data.remote.resources.WordResources

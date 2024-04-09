@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.kpfu.itis.ponomarev.lexify.databinding.DialogChooseListBinding
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.ListSelectorModel

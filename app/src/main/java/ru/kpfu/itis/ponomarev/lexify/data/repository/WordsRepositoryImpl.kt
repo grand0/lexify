@@ -1,14 +1,10 @@
 package ru.kpfu.itis.ponomarev.lexify.data.repository
 
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.plugins.resources.get
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.kpfu.itis.ponomarev.lexify.data.remote.api.WordsApi
 import ru.kpfu.itis.ponomarev.lexify.data.remote.model.mapper.RandomWordModelMapper
 import ru.kpfu.itis.ponomarev.lexify.data.remote.model.mapper.WordOfTheDayModelMapper
-import ru.kpfu.itis.ponomarev.lexify.data.remote.resources.WordsResources
 import ru.kpfu.itis.ponomarev.lexify.domain.model.RandomWordModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordOfTheDayModel
 import ru.kpfu.itis.ponomarev.lexify.domain.repository.WordsRepository

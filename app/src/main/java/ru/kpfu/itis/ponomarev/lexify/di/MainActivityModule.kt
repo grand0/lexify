@@ -7,7 +7,6 @@ import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.scopes.ActivityScoped
 import ru.kpfu.itis.ponomarev.lexify.util.AppNavigator
 import ru.kpfu.itis.ponomarev.lexify.util.AppNavigatorImpl
-import javax.inject.Singleton
 
 @Module
 @InstallIn(ActivityComponent::class)

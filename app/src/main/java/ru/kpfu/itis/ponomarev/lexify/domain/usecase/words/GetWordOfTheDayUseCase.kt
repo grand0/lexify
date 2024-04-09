@@ -1,9 +1,8 @@
-package ru.kpfu.itis.ponomarev.lexify.domain.usecase.words;
+package ru.kpfu.itis.ponomarev.lexify.domain.usecase.words
 
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordOfTheDayModel
-import javax.inject.Inject;
-
-import ru.kpfu.itis.ponomarev.lexify.domain.repository.WordsRepository;
+import ru.kpfu.itis.ponomarev.lexify.domain.repository.WordsRepository
+import javax.inject.Inject
 
 class GetWordOfTheDayUseCase @Inject constructor(
     private val repository: WordsRepository,

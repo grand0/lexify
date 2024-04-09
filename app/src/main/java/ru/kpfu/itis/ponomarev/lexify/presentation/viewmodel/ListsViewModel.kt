@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.future.asCompletableFuture
 import kotlinx.coroutines.launch
 import ru.kpfu.itis.ponomarev.lexify.domain.model.ListModel
+import ru.kpfu.itis.ponomarev.lexify.domain.sorting.ListsSorting
 import ru.kpfu.itis.ponomarev.lexify.domain.usecase.lists.CreateListUseCase
 import ru.kpfu.itis.ponomarev.lexify.domain.usecase.lists.DeleteListUseCase
 import ru.kpfu.itis.ponomarev.lexify.domain.usecase.lists.GetAllListsUseCase
-import ru.kpfu.itis.ponomarev.lexify.domain.sorting.ListsSorting
 import ru.kpfu.itis.ponomarev.lexify.domain.usecase.lists.ListExistsUseCase
 import java.util.concurrent.CompletableFuture
 import javax.inject.Inject

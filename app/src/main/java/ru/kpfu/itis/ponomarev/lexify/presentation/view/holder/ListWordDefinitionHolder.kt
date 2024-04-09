@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.ItemWordDefinitionBinding
 import ru.kpfu.itis.ponomarev.lexify.domain.model.ListDefinitionLabelModel
-import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordDefinitionModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.ListWordDefinitionItemModel
 
 class ListWordDefinitionHolder(

@@ -1,7 +1,6 @@
 package ru.kpfu.itis.ponomarev.lexify.domain.usecase.word
 
 import ru.kpfu.itis.ponomarev.lexify.domain.model.RelatedWordsModel
-import ru.kpfu.itis.ponomarev.lexify.domain.model.WordEtymologiesModel
 import ru.kpfu.itis.ponomarev.lexify.domain.repository.WordRepository
 import javax.inject.Inject
 

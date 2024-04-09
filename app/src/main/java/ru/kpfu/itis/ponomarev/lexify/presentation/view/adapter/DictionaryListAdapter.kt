@@ -40,7 +40,6 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordAudioHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordDefinitionHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordEtymologyHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordExampleHolder
-import java.lang.RuntimeException
 
 class DictionaryListAdapter(
     diffCallback: DiffUtil.ItemCallback<DictionaryItemModel>,
