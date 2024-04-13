@@ -48,5 +48,7 @@
     <string name="forget">forget</string>
     <string name="destroy">destroy</string>
     <string name="list_already_exists">List with this name already exists</string>
+    <string name="error_try_again_text">error, tap to try again</string>
+    <string name="roulette_error_text">something went wrong. try again later.</string>
 
 </resources>

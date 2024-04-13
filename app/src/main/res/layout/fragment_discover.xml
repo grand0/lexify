@@ -43,6 +43,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_wotd_label" />
 
+        <TextView
+            android:id="@+id/tv_wotd_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/error_try_again_text"
+            android:textColor="?colorSecondary"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_wotd_label" />
+
+        <ProgressBar
+            android:id="@+id/pb_wotd"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:indeterminate="true"
+            android:padding="4dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_wotd_label" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -74,10 +97,33 @@
             android:id="@+id/tv_rw_word"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text=""
             android:textSize="36sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_rw_label"
-            android:text="" />
+            app:layout_constraintTop_toBottomOf="@id/tv_rw_label" />
+
+        <TextView
+            android:id="@+id/tv_rw_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/error_try_again_text"
+            android:textColor="?colorSecondary"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_rw_label" />
+
+        <ProgressBar
+            android:id="@+id/pb_rw"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:indeterminate="true"
+            android:padding="4dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_rw_label" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

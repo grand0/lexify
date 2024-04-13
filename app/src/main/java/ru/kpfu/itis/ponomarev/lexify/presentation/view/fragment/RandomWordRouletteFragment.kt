@@ -19,10 +19,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavOptions
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentRandomWordRouletteBinding
+import ru.kpfu.itis.ponomarev.lexify.domain.model.RandomWordModel
+import ru.kpfu.itis.ponomarev.lexify.presentation.model.RandomWordsUiModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.RandomWordRouletteViewModel
 import ru.kpfu.itis.ponomarev.lexify.util.AppNavigator
 import ru.kpfu.itis.ponomarev.lexify.util.dpToPx
@@ -59,69 +62,84 @@ class RandomWordRouletteFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.randomWordsState.collect { models ->
-                    if (models.size < 3) return@collect
-
-                    binding.progressBar.isGone = true
-                    binding.vSelector.isGone = false
-                    binding.tvMessage.isGone = false
-
-                    valueAnimator?.cancel()
-                    binding.llWords.removeAllViews()
-                    models.map { model ->
-                        TextView(requireContext()).apply {
-                            layoutParams = LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                context.dpToPx(90)
-                            )
-                            textSize = 36f
-                            gravity = Gravity.CENTER
-                            text = model.word
+                viewModel.randomWordsState.collect { uiModel ->
+                    when (uiModel) {
+                        RandomWordsUiModel.Error -> {
+                            Snackbar.make(binding.root, R.string.roulette_error_text, Snackbar.LENGTH_SHORT)
+                                .show()
+                            navigator.navController.navigateUp()
                         }
-                    }.forEach { tv ->
-                        binding.llWords.addView(tv)
-                    }
-                    repeat(5) {
-                        binding.llWords.addView(
-                            View(requireContext()).apply {
-                                layoutParams = LinearLayout.LayoutParams(
-                                    LinearLayout.LayoutParams.MATCH_PARENT,
-                                    context.dpToPx(90)
-                                )
-                            },
-                            0,
-                        )
-                    }
-                    binding.scrollView.post {
-                        valueAnimator = ValueAnimator.ofInt(0, binding.scrollView.getChildAt(0).measuredHeight - binding.scrollView.measuredHeight).apply {
-                            setDuration(5000)
-                            interpolator = DecelerateInterpolator()
-                            addUpdateListener { va ->
-                                binding.scrollView.scrollY = va.animatedValue as Int
-                            }
-                            this.addListener(object : AnimatorListener {
-                                override fun onAnimationEnd(animation: Animator) {
-                                    val word = models[models.lastIndex - 3].word
-                                    val action = RandomWordRouletteFragmentDirections.actionRandomWordRouletteFragmentToWordFragment(word)
-                                    NavOptions.Builder()
-                                        .setPopUpTo(R.id.homeFragment, false)
-                                        .build().let {
-                                            navigator.navController.navigate(action, it)
-                                        }
-                                }
-
-                                override fun onAnimationStart(animation: Animator) {}
-                                override fun onAnimationCancel(animation: Animator) {}
-                                override fun onAnimationRepeat(animation: Animator) {}
-                            })
+                        RandomWordsUiModel.Loading -> { /* no-op */ }
+                        is RandomWordsUiModel.Ok -> {
+                            startRoulette(uiModel.words)
                         }
-                        valueAnimator?.start()
                     }
+
                 }
             }
         }
 
         viewModel.updateRandomWords()
+    }
+
+    private fun startRoulette(models: List<RandomWordModel>) {
+        if (models.size < 3) return
+
+        binding.progressBar.isGone = true
+        binding.vSelector.isGone = false
+        binding.tvMessage.isGone = false
+
+        valueAnimator?.cancel()
+        binding.llWords.removeAllViews()
+        models.map { model ->
+            TextView(requireContext()).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    context.dpToPx(90)
+                )
+                textSize = 36f
+                gravity = Gravity.CENTER
+                text = model.word
+            }
+        }.forEach { tv ->
+            binding.llWords.addView(tv)
+        }
+        repeat(5) {
+            binding.llWords.addView(
+                View(requireContext()).apply {
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        context.dpToPx(90)
+                    )
+                },
+                0,
+            )
+        }
+        binding.scrollView.post {
+            valueAnimator = ValueAnimator.ofInt(0, binding.scrollView.getChildAt(0).measuredHeight - binding.scrollView.measuredHeight).apply {
+                setDuration(5000)
+                interpolator = DecelerateInterpolator()
+                addUpdateListener { va ->
+                    binding.scrollView.scrollY = va.animatedValue as Int
+                }
+                this.addListener(object : AnimatorListener {
+                    override fun onAnimationEnd(animation: Animator) {
+                        val word = models[models.lastIndex - 3].word
+                        val action = RandomWordRouletteFragmentDirections.actionRandomWordRouletteFragmentToWordFragment(word)
+                        NavOptions.Builder()
+                            .setPopUpTo(R.id.homeFragment, false)
+                            .build().let {
+                                navigator.navController.navigate(action, it)
+                            }
+                    }
+
+                    override fun onAnimationStart(animation: Animator) {}
+                    override fun onAnimationCancel(animation: Animator) {}
+                    override fun onAnimationRepeat(animation: Animator) {}
+                })
+            }
+            valueAnimator?.start()
+        }
     }
 
     override fun onDestroyView() {
