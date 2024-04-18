@@ -48,7 +48,7 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.DictionaryListAda
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.diffutil.DictionaryDiffUtilItemCallback
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.callback.ItemHorizontalSwipeCallback
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.decoration.HeaderItemDecoration
-import ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.dialog.ListsSelectorBottomSheetDialog
+import ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.dialog.RememberDefinitionBottomSheetDialog
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.RelatedWordHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordDefinitionHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordEtymologyHolder
@@ -225,17 +225,10 @@ class WordFragment : Fragment() {
             attributionUrl = "",
             text = item.text,
             labels = item.labels,
+            word = args.word,
         )
-        ListsSelectorBottomSheetDialog(
-            definitionId = item.id,
-            selectList = { selector ->
-                if (selector.isChecked) {
-                    viewModel.forgetDefinition(item.id, selector.name)
-                } else {
-                    viewModel.rememberDefinition(model, selector.name, args.word)
-                }
-            }
-        ).show(childFragmentManager, null)
+        val action = WordFragmentDirections.actionWordFragmentToRememberDefinitionBottomSheetDialog(model)
+        navigator.navController.navigate(action)
     }
 
     private fun setLovedButtonState(loved: Boolean) {

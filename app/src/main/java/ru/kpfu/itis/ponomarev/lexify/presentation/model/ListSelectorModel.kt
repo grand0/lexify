@@ -1,6 +1,7 @@
 package ru.kpfu.itis.ponomarev.lexify.presentation.model
 
 data class ListSelectorModel(
-    val name: String,
-    val isChecked: Boolean,
+    var name: String,
+    var isChecked: Boolean,
+    var isLoading: Boolean,
 )

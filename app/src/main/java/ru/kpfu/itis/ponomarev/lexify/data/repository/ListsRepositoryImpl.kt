@@ -62,12 +62,12 @@ class ListsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addDefinition(def: WordDefinitionModel, listName: String, word: String) {
+    override suspend fun addDefinition(def: WordDefinitionModel, listName: String) {
         withContext(Dispatchers.IO) {
             if (!db.listsDao.checkDefinition(def.id)) {
                 db.listsDao.addDefinition(ListDefinitionEntity(
                     id = def.id,
-                    word = word,
+                    word = def.word,
                     text = def.text,
                     partOfSpeech = def.partOfSpeech,
                 ))

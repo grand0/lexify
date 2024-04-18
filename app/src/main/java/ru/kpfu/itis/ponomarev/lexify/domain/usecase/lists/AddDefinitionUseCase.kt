@@ -7,7 +7,7 @@ import javax.inject.Inject
 class AddDefinitionUseCase @Inject constructor(
     private val listsRepository: ListsRepository,
 ) {
-    suspend operator fun invoke(def: WordDefinitionModel, listName: String, word: String) {
-        listsRepository.addDefinition(def, listName, word)
+    suspend operator fun invoke(def: WordDefinitionModel, listName: String) {
+        listsRepository.addDefinition(def, listName)
     }
 }

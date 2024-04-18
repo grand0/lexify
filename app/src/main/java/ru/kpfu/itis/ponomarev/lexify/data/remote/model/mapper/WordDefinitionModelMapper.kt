@@ -21,7 +21,8 @@ class WordDefinitionModelMapper @Inject constructor() {
             attributionText = data.attributionText,
             attributionUrl = data.attributionUrl,
             text = cleanText,
-            labels = data.labels.map { WordDefinitionLabelModel(type = it.type, text = it.text) }
+            labels = data.labels.map { WordDefinitionLabelModel(type = it.type, text = it.text) },
+            word = data.word,
         )
     }
 

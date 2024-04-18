@@ -124,18 +124,6 @@ class WordViewModel @Inject constructor(
         }
     }
 
-    fun rememberDefinition(def: WordDefinitionModel, listName: String, word: String) {
-        viewModelScope.launch {
-            addDefinitionUseCase(def, listName, word)
-        }
-    }
-
-    fun forgetDefinition(id: String, listName: String) {
-        viewModelScope.launch {
-            deleteDefinitionUseCase(id, listName)
-        }
-    }
-
     fun updateIsLoved(word: String) {
         viewModelScope.launch {
             _isLovedState.value = checkIfWordIsLovedUseCase(word)

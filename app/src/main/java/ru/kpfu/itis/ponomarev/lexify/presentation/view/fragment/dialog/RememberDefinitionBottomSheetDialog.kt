@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -15,15 +16,13 @@ import ru.kpfu.itis.ponomarev.lexify.databinding.DialogChooseListBinding
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.ListSelectorModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.ListsSelectorListAdapter
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.diffutil.ListsSelectorDiffUtilItemCallback
-import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.ListsSelectorViewModel
+import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.RememberDefinitionViewModel
 
 @AndroidEntryPoint
-class ListsSelectorBottomSheetDialog(
-    private val definitionId: String,
-    private val selectList: (ListSelectorModel) -> Unit,
-) : BottomSheetDialogFragment() {
+class RememberDefinitionBottomSheetDialog : BottomSheetDialogFragment() {
 
-    private val viewModel: ListsSelectorViewModel by viewModels()
+    private val viewModel: RememberDefinitionViewModel by viewModels()
+    private val args: RememberDefinitionBottomSheetDialogArgs by navArgs()
 
     private var _binding: DialogChooseListBinding? = null
     private val binding get() = _binding!!
@@ -52,12 +51,11 @@ class ListsSelectorBottomSheetDialog(
             }
         }
 
-        viewModel.updateListSelectors(definitionId)
+        viewModel.updateAllLists(args.def.id)
     }
 
     private fun onListSelected(item: ListSelectorModel) {
-        selectList(item)
-        viewModel.updateListSelectors(definitionId)
+        viewModel.switch(args.def, item.name)
     }
 
     override fun onDestroyView() {

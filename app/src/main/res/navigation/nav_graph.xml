@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_wordFragment_self"
             app:destination="@id/wordFragment" />
+        <action
+            android:id="@+id/action_wordFragment_to_rememberDefinitionBottomSheetDialog"
+            app:destination="@id/rememberDefinitionBottomSheetDialog" />
     </fragment>
     <fragment
         android:id="@+id/randomWordRouletteFragment"
@@ -86,4 +89,12 @@
             android:id="@+id/action_listFragment_to_wordFragment"
             app:destination="@id/wordFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/rememberDefinitionBottomSheetDialog"
+        android:name="ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.dialog.RememberDefinitionBottomSheetDialog"
+        android:label="RememberDefinitionBottomSheetDialog" >
+        <argument
+            android:name="def"
+            app:argType="ru.kpfu.itis.ponomarev.lexify.domain.model.WordDefinitionModel" />
+    </dialog>
 </navigation>

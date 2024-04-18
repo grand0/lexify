@@ -11,7 +11,7 @@ interface ListsRepository {
     suspend fun getDefinitionsOfList(listName: String): List<ListDefinitionModel>
     suspend fun createList(name: String)
     suspend fun deleteList(name: String)
-    suspend fun addDefinition(def: WordDefinitionModel, listName: String, word: String)
+    suspend fun addDefinition(def: WordDefinitionModel, listName: String)
     suspend fun deleteDefinition(id: String, listName: String)
     suspend fun checkDefinition(id: String, listName: String): Boolean
     suspend fun listExists(name: String): Boolean
