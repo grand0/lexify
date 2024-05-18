@@ -50,5 +50,7 @@
     <string name="list_already_exists">List with this name already exists</string>
     <string name="error_try_again_text">error, tap to try again</string>
     <string name="roulette_error_text">something went wrong. try again later.</string>
+    <string name="empty_list_text">you haven\'t added anything here yet</string>
+    <string name="no_lists_text">you don\'t have any lists yet</string>
 
 </resources>
