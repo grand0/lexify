@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -16,6 +17,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.transition.ChangeBounds
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.TransitionSet
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -44,11 +49,11 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordDefinition
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordEtymologyModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordExampleModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.helper.DictionarySectionHelper
+import ru.kpfu.itis.ponomarev.lexify.presentation.transition.ChangeTextSize
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.DictionaryListAdapter
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.diffutil.DictionaryDiffUtilItemCallback
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.callback.ItemHorizontalSwipeCallback
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.decoration.HeaderItemDecoration
-import ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment.dialog.RememberDefinitionBottomSheetDialog
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.RelatedWordHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordDefinitionHolder
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.holder.WordEtymologyHolder
@@ -81,6 +86,18 @@ class WordFragment : Fragment() {
 
     private var mediaPlayer: MediaPlayer? = null
     private var rateLimit = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = TransitionSet().apply {
+            addTransition(ChangeTextSize(requireContext()))
+            addTransition(ChangeBounds())
+        }
+        enterTransition = TransitionSet().apply {
+            addTransition(Fade())
+            addTransition(Slide())
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -246,6 +263,7 @@ class WordFragment : Fragment() {
 
     private fun processList() {
         val itemsList = mutableListOf<DictionaryItemModel>()
+        var allLoading = true
         for (section in DictionarySection.entries) {
             val sectionItems = when (section) {
                 DictionarySection.DEFINITIONS -> wordDefinitionsItems
@@ -259,9 +277,17 @@ class WordFragment : Fragment() {
                 itemsList.add(DictionarySectionLoadingModel(section))
             } else {
                 itemsList.addAll(sectionItems)
+                allLoading = false
             }
         }
         dictionaryListAdapter?.submitList(itemsList)
+        if (!allLoading) {
+            binding.progressBar.isVisible = false
+            binding.rvDictionary.isVisible = true
+        } else {
+            binding.progressBar.isVisible = true
+            binding.rvDictionary.isVisible = false
+        }
     }
 
     private fun processDefinitions(defs: List<WordDefinitionModel>?) {

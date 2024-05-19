@@ -2,13 +2,18 @@ package ru.kpfu.itis.ponomarev.lexify.presentation.view.fragment
 
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.transition.AutoTransition
+import androidx.transition.Fade
+import androidx.transition.Slide
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import dagger.hilt.android.AndroidEntryPoint
 import ru.kpfu.itis.ponomarev.lexify.R
@@ -27,6 +32,11 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val homeViewModel: HomeViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        exitTransition = Fade()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -85,6 +95,10 @@ class HomeFragment : Fragment() {
 
             binding.tvMessage.text = msgInterpolator.interpolate(currentItem.toDouble())
         }
+    }
+
+    fun getAppTitleToTransitionNamePair(name: String): Pair<View, String> {
+        return binding.tvAppTitle to name
     }
 
     override fun onStop() {

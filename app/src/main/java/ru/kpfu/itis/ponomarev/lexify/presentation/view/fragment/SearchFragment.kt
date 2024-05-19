@@ -9,9 +9,14 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import dagger.hilt.android.AndroidEntryPoint
+import ru.kpfu.itis.ponomarev.lexify.R
+import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentHomeBinding
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentSearchBinding
 import ru.kpfu.itis.ponomarev.lexify.util.AppNavigator
+import ru.kpfu.itis.ponomarev.lexify.util.navigate
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,8 +40,15 @@ class SearchFragment : Fragment() {
         binding.etSearch.setOnEditorActionListener { v, actionId, event ->
             if (v.text.isNotBlank() && (event?.keyCode == KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_SEARCH)) {
                 val word = v.text.toString()
+                val homeFragment = parentFragment as? HomeFragment
+                var extras: Navigator.Extras? = null
+                homeFragment?.let {
+                    extras = FragmentNavigatorExtras(
+                        it.getAppTitleToTransitionNamePair(getString(R.string.app_title_word_transition)),
+                    )
+                }
                 val action = HomeFragmentDirections.actionHomeFragmentToWordFragment(word)
-                navigator.navController.navigate(action)
+                navigator.navController.navigate(action, extras)
             }
             true
         }

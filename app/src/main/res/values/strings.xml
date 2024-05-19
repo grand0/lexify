@@ -53,4 +53,7 @@
     <string name="empty_list_text">you haven\'t added anything here yet</string>
     <string name="no_lists_text">you don\'t have any lists yet</string>
 
+    <string name="app_title_home_transition" translatable="false">app_title_home_transition</string>
+    <string name="app_title_word_transition" translatable="false">app_title_word_transition</string>
+
 </resources>
