@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -17,10 +16,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import androidx.transition.ChangeBounds
-import androidx.transition.Fade
-import androidx.transition.Slide
-import androidx.transition.TransitionSet
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -33,6 +28,7 @@ import ru.kpfu.itis.ponomarev.lexify.domain.model.WordAudioModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordDefinitionModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordEtymologiesModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordExampleModel
+import ru.kpfu.itis.ponomarev.lexify.presentation.base.BaseFragment
 import ru.kpfu.itis.ponomarev.lexify.presentation.exception.DictionarySectionException
 import ru.kpfu.itis.ponomarev.lexify.presentation.exception.DictionarySectionNotFoundException
 import ru.kpfu.itis.ponomarev.lexify.presentation.exception.DictionarySectionRateLimitException
@@ -49,7 +45,6 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordDefinition
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordEtymologyModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.DictionaryWordExampleModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.helper.DictionarySectionHelper
-import ru.kpfu.itis.ponomarev.lexify.presentation.transition.ChangeTextSize
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.DictionaryListAdapter
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.diffutil.DictionaryDiffUtilItemCallback
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.callback.ItemHorizontalSwipeCallback
@@ -64,7 +59,7 @@ import ru.kpfu.itis.ponomarev.lexify.util.ClipboardUtil
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class WordFragment : Fragment() {
+class WordFragment : BaseFragment() {
 
     private val viewModel: WordViewModel by viewModels()
 
@@ -86,18 +81,6 @@ class WordFragment : Fragment() {
 
     private var mediaPlayer: MediaPlayer? = null
     private var rateLimit = false
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = TransitionSet().apply {
-            addTransition(ChangeTextSize(requireContext()))
-            addTransition(ChangeBounds())
-        }
-        enterTransition = TransitionSet().apply {
-            addTransition(Fade())
-            addTransition(Slide())
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

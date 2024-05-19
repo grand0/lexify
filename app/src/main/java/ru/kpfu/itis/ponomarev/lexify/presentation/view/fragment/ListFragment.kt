@@ -16,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentListBinding
+import ru.kpfu.itis.ponomarev.lexify.presentation.base.BaseFragment
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.ListItemModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.ListWordDefinitionItemModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.ListWordItemModel
@@ -29,7 +30,7 @@ import ru.kpfu.itis.ponomarev.lexify.util.ClipboardUtil
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ListFragment : Fragment() {
+class ListFragment : BaseFragment() {
 
     private val listViewModel: ListViewModel by viewModels()
 

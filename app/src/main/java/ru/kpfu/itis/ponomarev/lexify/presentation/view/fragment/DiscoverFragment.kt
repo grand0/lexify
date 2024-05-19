@@ -10,11 +10,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.Navigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
+import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentDiscoverBinding
 import ru.kpfu.itis.ponomarev.lexify.presentation.animator.StringAnimator
+import ru.kpfu.itis.ponomarev.lexify.presentation.base.BaseFragment
 import ru.kpfu.itis.ponomarev.lexify.presentation.exception.DiscoverScreenRandomWordException
 import ru.kpfu.itis.ponomarev.lexify.presentation.exception.DiscoverScreenWordOfTheDayException
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.RandomWordsUiModel
@@ -22,10 +26,11 @@ import ru.kpfu.itis.ponomarev.lexify.presentation.model.WordOfTheDayUiModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.DiscoverViewModel
 import ru.kpfu.itis.ponomarev.lexify.util.AppNavigator
 import ru.kpfu.itis.ponomarev.lexify.util.StringInterpolator
+import ru.kpfu.itis.ponomarev.lexify.util.navigate
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DiscoverFragment : Fragment() {
+class DiscoverFragment : BaseFragment() {
 
     private val viewModel: DiscoverViewModel by viewModels()
 
@@ -106,8 +111,15 @@ class DiscoverFragment : Fragment() {
                 WordOfTheDayUiModel.Loading -> { /* no-op */ }
                 is WordOfTheDayUiModel.Ok -> {
                     val word = wotd.word.word
+                    val homeFragment = parentFragment as? HomeFragment
+                    var extras: Navigator.Extras? = null
+                    homeFragment?.let {
+                        extras = FragmentNavigatorExtras(
+                            it.getAppTitleToTransitionNamePair(getString(R.string.app_title_word_transition)),
+                        )
+                    }
                     val action = HomeFragmentDirections.actionHomeFragmentToWordFragment(word)
-                    navigator.navController.navigate(action)
+                    navigator.navController.navigate(action, extras)
                 }
             }
         }

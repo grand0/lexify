@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.get
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,20 +20,28 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.get
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.TransitionSet
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentRandomWordRouletteBinding
 import ru.kpfu.itis.ponomarev.lexify.domain.model.RandomWordModel
+import ru.kpfu.itis.ponomarev.lexify.presentation.base.BaseFragment
 import ru.kpfu.itis.ponomarev.lexify.presentation.model.RandomWordsUiModel
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.RandomWordRouletteViewModel
 import ru.kpfu.itis.ponomarev.lexify.util.AppNavigator
 import ru.kpfu.itis.ponomarev.lexify.util.dpToPx
+import ru.kpfu.itis.ponomarev.lexify.util.navigate
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RandomWordRouletteFragment : Fragment() {
+class RandomWordRouletteFragment : BaseFragment() {
 
     private val viewModel: RandomWordRouletteViewModel by viewModels()
 
@@ -41,7 +50,11 @@ class RandomWordRouletteFragment : Fragment() {
 
     @Inject lateinit var navigator: AppNavigator
 
-    var valueAnimator: ValueAnimator? = null
+    private var valueAnimator: ValueAnimator? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -91,7 +104,8 @@ class RandomWordRouletteFragment : Fragment() {
 
         valueAnimator?.cancel()
         binding.llWords.removeAllViews()
-        models.map { model ->
+        var winningTextView: TextView? = null
+        models.mapIndexed { index, model ->
             TextView(requireContext()).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
@@ -100,6 +114,10 @@ class RandomWordRouletteFragment : Fragment() {
                 textSize = 36f
                 gravity = Gravity.CENTER
                 text = model.word
+                if (index == models.lastIndex - WINNING_WORD_INDEX_FROM_END) {
+                    transitionName = getString(R.string.word_roulette_transition)
+                    winningTextView = this
+                }
             }
         }.forEach { tv ->
             binding.llWords.addView(tv)
@@ -124,12 +142,17 @@ class RandomWordRouletteFragment : Fragment() {
                 }
                 this.addListener(object : AnimatorListener {
                     override fun onAnimationEnd(animation: Animator) {
-                        val word = models[models.lastIndex - 3].word
+                        val word = models[models.lastIndex - WINNING_WORD_INDEX_FROM_END].word
                         val action = RandomWordRouletteFragmentDirections.actionRandomWordRouletteFragmentToWordFragment(word)
                         NavOptions.Builder()
                             .setPopUpTo(R.id.homeFragment, false)
-                            .build().let {
-                                navigator.navController.navigate(action, it)
+                            .build().let { navOptions ->
+                                val extrasPairs = mutableListOf<Pair<View, String>>()
+                                winningTextView?.let {
+                                    extrasPairs.add(it to getString(R.string.word_word_transition))
+                                }
+                                val extras = FragmentNavigatorExtras(*extrasPairs.toTypedArray())
+                                navigator.navController.navigate(action, navOptions, extras)
                             }
                     }
 
@@ -149,5 +172,9 @@ class RandomWordRouletteFragment : Fragment() {
         }
         _binding = null
         super.onDestroyView()
+    }
+
+    companion object {
+        private const val WINNING_WORD_INDEX_FROM_END = 3
     }
 }

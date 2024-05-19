@@ -9,18 +9,22 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.Navigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentLocalBinding
 import ru.kpfu.itis.ponomarev.lexify.presentation.animator.StringAnimator
+import ru.kpfu.itis.ponomarev.lexify.presentation.base.BaseFragment
 import ru.kpfu.itis.ponomarev.lexify.presentation.viewmodel.LocalSpaceViewModel
 import ru.kpfu.itis.ponomarev.lexify.util.AppNavigator
 import ru.kpfu.itis.ponomarev.lexify.util.StringInterpolator
+import ru.kpfu.itis.ponomarev.lexify.util.navigate
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LocalSpaceFragment : Fragment() {
+class LocalSpaceFragment : BaseFragment() {
 
     private val localSpaceViewModel: LocalSpaceViewModel by viewModels()
 
@@ -43,12 +47,26 @@ class LocalSpaceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.clLovedBlock.setOnClickListener {
+            val homeFragment = parentFragment as? HomeFragment
+            var extras: Navigator.Extras? = null
+            homeFragment?.let {
+                extras = FragmentNavigatorExtras(
+                    it.getAppTitleToTransitionNamePair(getString(R.string.app_title_loved_transition)),
+                )
+            }
             val action = HomeFragmentDirections.actionHomeFragmentToLovedFragment()
-            navigator.navController.navigate(action)
+            navigator.navController.navigate(action, extras)
         }
         binding.clListsBlock.setOnClickListener {
+            val homeFragment = parentFragment as? HomeFragment
+            var extras: Navigator.Extras? = null
+            homeFragment?.let {
+                extras = FragmentNavigatorExtras(
+                    it.getAppTitleToTransitionNamePair(getString(R.string.app_title_lists_transition)),
+                )
+            }
             val action = HomeFragmentDirections.actionHomeFragmentToListsFragment()
-            navigator.navController.navigate(action)
+            navigator.navController.navigate(action, extras)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

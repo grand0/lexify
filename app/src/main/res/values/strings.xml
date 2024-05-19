@@ -55,5 +55,9 @@
 
     <string name="app_title_home_transition" translatable="false">app_title_home_transition</string>
     <string name="app_title_word_transition" translatable="false">app_title_word_transition</string>
+    <string name="app_title_loved_transition" translatable="false">app_title_loved_transition</string>
+    <string name="app_title_lists_transition" translatable="false">app_title_lists_transition</string>
+    <string name="word_roulette_transition" translatable="false">word_roulette_transition</string>
+    <string name="word_word_transition" translatable="false">word_word_transition</string>
 
 </resources>

@@ -17,6 +17,7 @@ import ru.kpfu.itis.ponomarev.lexify.R
 import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentListsBinding
 import ru.kpfu.itis.ponomarev.lexify.databinding.ItemListBinding
 import ru.kpfu.itis.ponomarev.lexify.domain.model.ListModel
+import ru.kpfu.itis.ponomarev.lexify.presentation.base.BaseFragment
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.ListsListAdapter
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.diffutil.ListsDiffUtilItemCallback
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.callback.ItemHorizontalSwipeCallback
@@ -28,7 +29,7 @@ import java.util.concurrent.CompletableFuture
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ListsFragment : Fragment() {
+class ListsFragment : BaseFragment() {
 
     private val listsViewModel: ListsViewModel by viewModels()
 

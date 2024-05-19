@@ -5,6 +5,7 @@ import android.os.Build
 import android.util.TypedValue
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -49,5 +50,13 @@ fun NavController.navigate(directions: NavDirections, navigatorExtras: Navigator
         navigate(directions, navigatorExtras)
     } else {
         navigate(directions)
+    }
+}
+
+fun NavController.navigate(directions: NavDirections, navOptions: NavOptions, navigatorExtras: Navigator.Extras?) {
+    if (navigatorExtras != null) {
+        navigate(directions, navOptions)
+    } else {
+        navigate(directions.actionId, directions.arguments, navOptions, navigatorExtras)
     }
 }

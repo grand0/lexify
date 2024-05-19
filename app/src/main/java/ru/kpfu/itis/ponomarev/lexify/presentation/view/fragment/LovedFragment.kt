@@ -18,6 +18,7 @@ import ru.kpfu.itis.ponomarev.lexify.databinding.FragmentLovedBinding
 import ru.kpfu.itis.ponomarev.lexify.databinding.ItemLovedWordBinding
 import ru.kpfu.itis.ponomarev.lexify.domain.model.LovedWordModel
 import ru.kpfu.itis.ponomarev.lexify.domain.sorting.LovedWordsSorting
+import ru.kpfu.itis.ponomarev.lexify.presentation.base.BaseFragment
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.LovedListAdapter
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.adapter.diffutil.LovedDiffUtilItemCallback
 import ru.kpfu.itis.ponomarev.lexify.presentation.view.callback.ItemHorizontalSwipeCallback
@@ -28,7 +29,7 @@ import ru.kpfu.itis.ponomarev.lexify.util.AppNavigator
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LovedFragment : Fragment() {
+class LovedFragment : BaseFragment() {
 
     private val lovedViewModel: LovedViewModel by viewModels()
 
