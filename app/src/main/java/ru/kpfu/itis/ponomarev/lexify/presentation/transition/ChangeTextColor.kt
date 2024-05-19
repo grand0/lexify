@@ -2,19 +2,15 @@ package ru.kpfu.itis.ponomarev.lexify.presentation.transition
 
 import android.animation.Animator
 import android.animation.ValueAnimator
-import android.content.Context
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.transition.Transition
 import androidx.transition.TransitionValues
-import ru.kpfu.itis.ponomarev.lexify.util.pxToSp
 
-class ChangeTextSize(private val context: Context) : Transition() {
+class ChangeTextColor : Transition() {
 
     private fun captureValues(values: TransitionValues) {
-        values.values[PROPNAME_TEXT_SIZE] = (values.view as? TextView)?.textSize?.let {
-            context.pxToSp(it)
-        }
+        values.values[PROPNAME_TEXT_COLOR] = (values.view as? TextView)?.currentTextColor
     }
 
     override fun captureStartValues(transitionValues: TransitionValues) {
@@ -34,12 +30,12 @@ class ChangeTextSize(private val context: Context) : Transition() {
             return null
         }
         val view = endValues.view as? TextView ?: return null
-        val startTextSize = startValues.values[PROPNAME_TEXT_SIZE] as? Float ?: return null
-        val endTextSize = endValues.values[PROPNAME_TEXT_SIZE] as? Float ?: return null
-        if (startTextSize != endTextSize) {
-            val animator = ValueAnimator.ofFloat(startTextSize, endTextSize)
+        val startTextColor = startValues.values[PROPNAME_TEXT_COLOR] as Int
+        val endTextColor = endValues.values[PROPNAME_TEXT_COLOR] as Int
+        if (startTextColor != endTextColor) {
+            val animator = ValueAnimator.ofArgb(startTextColor, endTextColor)
             animator.addUpdateListener {
-                view.textSize = it.getAnimatedValue() as Float
+                view.setTextColor(it.getAnimatedValue() as Int)
             }
             return animator
         }
@@ -47,6 +43,6 @@ class ChangeTextSize(private val context: Context) : Transition() {
     }
 
     companion object {
-        private const val PROPNAME_TEXT_SIZE = "ru.kpfu.itis.ponomarev.lexify.presentation.transition:change_text_size:text_size"
+        private const val PROPNAME_TEXT_COLOR = "ru.kpfu.itis.ponomarev.lexify.presentation.transition:change_text_size:text_color"
     }
 }

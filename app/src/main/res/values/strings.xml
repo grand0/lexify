@@ -59,5 +59,7 @@
     <string name="app_title_lists_transition" translatable="false">app_title_lists_transition</string>
     <string name="word_roulette_transition" translatable="false">word_roulette_transition</string>
     <string name="word_word_transition" translatable="false">word_word_transition</string>
+    <string name="lists_title_lists_transition" translatable="false">lists_title_lists_transition</string>
+    <string name="lists_title_list_transition" translatable="false">lists_title_list_transition</string>
 
 </resources>
