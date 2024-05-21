@@ -45,6 +45,16 @@
             app:layout_constraintTop_toBottomOf="@id/tv_loved_label"
             tools:text="cat" />
 
+        <View
+            android:id="@+id/v_loved_arrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/keyboard_arrow_right_24dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_loved_word"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_loved_word"
+            android:backgroundTint="?colorPrimary" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -80,6 +90,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_lists_label"
             tools:text="animals list" />
+
+        <View
+            android:id="@+id/v_lists_arrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/keyboard_arrow_right_24dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_lists_word"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_lists_word"
+            android:backgroundTint="?colorPrimary" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

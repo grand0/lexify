@@ -62,15 +62,18 @@ class DiscoverFragment : BaseFragment() {
                                 binding.tvRwWord.text = ""
                                 binding.tvRwError.isVisible = true
                                 binding.pbRw.isVisible = false
+                                binding.vRwArrow.isVisible = false
                             }
                             RandomWordsUiModel.Loading -> {
                                 binding.tvRwWord.text = ""
                                 binding.tvRwError.isVisible = false
                                 binding.pbRw.isVisible = true
+                                binding.vRwArrow.isVisible = false
                             }
                             is RandomWordsUiModel.Ok -> {
                                 binding.tvRwError.isVisible = false
                                 binding.pbRw.isVisible = false
+                                binding.vRwArrow.isVisible = true
                                 if (it.words.isNotEmpty()) {
                                     randomWordAnimator = StringAnimator(
                                         interpolator = StringInterpolator("%s", it.words.map { m -> m.word }, useBlankSpaceChar = true)
@@ -87,16 +90,19 @@ class DiscoverFragment : BaseFragment() {
                                 binding.tvWotdWord.text = ""
                                 binding.tvWotdError.isVisible = true
                                 binding.pbWotd.isVisible = false
+                                binding.vWotdArrow.isVisible = false
                             }
                             WordOfTheDayUiModel.Loading -> {
                                 binding.tvWotdWord.text = ""
                                 binding.tvWotdError.isVisible = false
                                 binding.pbWotd.isVisible = true
+                                binding.vWotdArrow.isVisible = false
                             }
                             is WordOfTheDayUiModel.Ok -> {
                                 binding.tvWotdWord.text = it.word.word
                                 binding.tvWotdError.isVisible = false
                                 binding.pbWotd.isVisible = false
+                                binding.vWotdArrow.isVisible = true
                             }
                         }
                     }

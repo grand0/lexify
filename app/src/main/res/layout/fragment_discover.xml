@@ -43,12 +43,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_wotd_label" />
 
+        <View
+            android:id="@+id/v_wotd_arrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/keyboard_arrow_right_24dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_wotd_word"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_wotd_word"
+            android:backgroundTint="?colorPrimary" />
+
         <TextView
             android:id="@+id/tv_wotd_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/error_try_again_text"
-            android:textColor="?colorSecondary"
+            android:textColor="@color/medium_emphasis"
             android:textSize="24sp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,12 +112,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_rw_label" />
 
+        <View
+            android:id="@+id/v_rw_arrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/keyboard_arrow_right_24dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_rw_word"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_rw_word"
+            android:backgroundTint="?colorPrimary" />
+
         <TextView
             android:id="@+id/tv_rw_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/error_try_again_text"
-            android:textColor="?colorSecondary"
+            android:textColor="@color/medium_emphasis"
             android:textSize="24sp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
