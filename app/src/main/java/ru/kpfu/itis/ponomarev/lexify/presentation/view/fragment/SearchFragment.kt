@@ -40,7 +40,7 @@ class SearchFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.etSearch.setOnEditorActionListener { v, actionId, event ->
             if (v.text.isNotBlank() && (event?.keyCode == KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_SEARCH)) {
-                val word = v.text.toString()
+                val word = v.text.toString().trim()
                 val homeFragment = parentFragment as? HomeFragment
                 var extras: Navigator.Extras? = null
                 homeFragment?.let {
