@@ -13,7 +13,11 @@ class WordEtymologiesModelMapper @Inject constructor() {
         if (data.isEmpty()) {
             return WordEtymologiesModel(null)
         }
-        val cleanText = HtmlCompat.fromHtml(data.first(), HtmlCompat.FROM_HTML_MODE_COMPACT).toString()
+        val cleanText = HtmlCompat.fromHtml(data.first(), HtmlCompat.FROM_HTML_MODE_COMPACT)
+            .trim()
+            .trimStart('[')
+            .trimEnd(']')
+            .toString()
         Log.d(this::class.simpleName, cleanText)
         return WordEtymologiesModel(text = cleanText)
     }
