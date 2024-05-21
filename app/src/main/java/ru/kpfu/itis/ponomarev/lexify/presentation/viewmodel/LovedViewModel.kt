@@ -18,7 +18,7 @@ class LovedViewModel @Inject constructor(
     private val deleteLovedUseCase: DeleteLovedUseCase,
 ) : ViewModel() {
 
-    private val _lovedState = MutableStateFlow<List<LovedWordModel>>(emptyList())
+    private val _lovedState = MutableStateFlow<List<LovedWordModel>?>(null)
     val lovedState get() = _lovedState.asStateFlow()
 
     var currentSorting = LovedWordsSorting.ALPHABETICALLY

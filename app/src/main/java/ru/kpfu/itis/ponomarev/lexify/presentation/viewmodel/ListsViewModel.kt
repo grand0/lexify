@@ -25,7 +25,7 @@ class ListsViewModel @Inject constructor(
     private val listExistsUseCase: ListExistsUseCase,
 ) : ViewModel() {
 
-    private val _listsState = MutableStateFlow<List<ListModel>>(emptyList())
+    private val _listsState = MutableStateFlow<List<ListModel>?>(null)
     val listsState get() = _listsState.asStateFlow()
 
     init {

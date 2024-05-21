@@ -77,8 +77,16 @@ class ListsFragment : BaseFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 listsViewModel.listsState.collect {
-                    adapter.submitList(it)
-                    binding.llEmptyList.isVisible = it.isEmpty()
+                    if (it == null) {
+                        binding.progressBar.isVisible = true
+                        binding.rvLists.isVisible = false
+                        binding.llEmptyList.isVisible = false
+                    } else {
+                        adapter.submitList(it)
+                        binding.progressBar.isVisible = false
+                        binding.rvLists.isVisible = true
+                        binding.llEmptyList.isVisible = it.isEmpty()
+                    }
                 }
             }
         }

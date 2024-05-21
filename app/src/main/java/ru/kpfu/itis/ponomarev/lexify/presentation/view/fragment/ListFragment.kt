@@ -85,7 +85,9 @@ class ListFragment : BaseFragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 listViewModel.listDefinitionsState.collect { model ->
                     if (model == null) {
-                        adapter.submitList(emptyList())
+                        binding.rvWords.isVisible = false
+                        binding.progressBar.isVisible = true
+                        binding.llEmptyList.isVisible = false
                     } else {
                         val items = mutableListOf<ListItemModel>()
                         model.forEach { (word, defs) ->
@@ -102,6 +104,8 @@ class ListFragment : BaseFragment() {
                             )
                         }
                         adapter.submitList(items)
+                        binding.progressBar.isVisible = false
+                        binding.rvWords.isVisible = true
                         binding.llEmptyList.isVisible = items.isEmpty()
                     }
                 }

@@ -73,8 +73,16 @@ class LovedFragment : BaseFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 lovedViewModel.lovedState.collect {
-                    adapter.submitList(it)
-                    binding.llEmptyList.isVisible = it.isEmpty()
+                    if (it == null) {
+                        binding.progressBar.isVisible = true
+                        binding.rvWords.isVisible = false
+                        binding.llEmptyList.isVisible = false
+                    } else {
+                        adapter.submitList(it)
+                        binding.progressBar.isVisible = false
+                        binding.rvWords.isVisible = true
+                        binding.llEmptyList.isVisible = it.isEmpty()
+                    }
                 }
             }
         }
