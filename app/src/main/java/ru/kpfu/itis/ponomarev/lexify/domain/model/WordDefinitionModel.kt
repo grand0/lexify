@@ -10,4 +10,5 @@ data class WordDefinitionModel(
     val text: String,
     val labels: List<WordDefinitionLabelModel>,
     val word: String,
+    val xrefs: Set<String>,
 ) : Serializable

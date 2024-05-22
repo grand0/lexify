@@ -1,6 +1,7 @@
 [versions]
 agp = "8.3.0-rc02"
 hiltAndroid = "2.50"
+jsoup = "1.17.2"
 kotlin = "1.9.0"
 coreKtx = "1.10.1"
 junit = "4.13.2"
@@ -54,6 +55,9 @@ secrets-gradle-plugin = { module = "com.google.android.libraries.mapsplatform.se
 
 # logging
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4jSimple" }
+
+# jsoup
+jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

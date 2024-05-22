@@ -6,7 +6,6 @@ import android.net.Uri
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
-import android.text.style.ForegroundColorSpan
 import android.webkit.URLUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.kpfu.itis.ponomarev.lexify.R
@@ -25,13 +24,7 @@ class WordExampleHolder(
         item.text.indexesOf(item.word)
             .forEach {
                 span.setSpan(
-                    BackgroundColorSpan(context.getColor(R.color.primary)),
-                    it,
-                    it + (item.word?.length ?: 0),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
-                )
-                span.setSpan(
-                    ForegroundColorSpan(context.getColor(R.color.on_primary)),
+                    BackgroundColorSpan(context.getColor(R.color.text_emphasis_background)),
                     it,
                     it + (item.word?.length ?: 0),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,

@@ -1,6 +1,7 @@
 package ru.kpfu.itis.ponomarev.lexify.data.remote.model.mapper
 
-import androidx.core.text.HtmlCompat
+import org.jsoup.Jsoup
+import org.jsoup.parser.Parser
 import ru.kpfu.itis.ponomarev.lexify.data.remote.model.WordDefinitionDataModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordDefinitionLabelModel
 import ru.kpfu.itis.ponomarev.lexify.domain.model.WordDefinitionModel
@@ -14,15 +15,19 @@ class WordDefinitionModelMapper @Inject constructor() {
         if (data.text == null) {
             return null
         }
-        val cleanText = HtmlCompat.fromHtml(data.text, HtmlCompat.FROM_HTML_MODE_COMPACT).toString()
+        val doc = Jsoup.parse(data.text, "", Parser.xmlParser())
+        val xrefs = doc.select("xref, internalXref").map { el ->
+            el.text()
+        }.toSet()
         return WordDefinitionModel(
             id = data.id ?: defaultId(data),
             partOfSpeech = data.partOfSpeech,
             attributionText = data.attributionText,
             attributionUrl = data.attributionUrl,
-            text = cleanText,
+            text = doc.text(),
             labels = data.labels.map { WordDefinitionLabelModel(type = it.type, text = it.text) },
             word = data.word,
+            xrefs = xrefs,
         )
     }
 

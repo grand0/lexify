@@ -111,10 +111,11 @@ class WordFragment : BaseFragment() {
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvDictionary.layoutManager = layoutManager
         dictionaryListAdapter = DictionaryListAdapter(
-            DictionaryDiffUtilItemCallback(),
-            requireContext(),
-            ::onAudioPlayClickListener,
-            ::openWord,
+            diffCallback = DictionaryDiffUtilItemCallback(),
+            context = requireContext(),
+            onAudioPlayClickListener = ::onAudioPlayClickListener,
+            onWordClickListener = ::openWord,
+            onXrefClickListener = ::openWord,
         ).also {
             binding.rvDictionary.adapter = it
             binding.rvDictionary.addItemDecoration(HeaderItemDecoration(it))
@@ -226,6 +227,7 @@ class WordFragment : BaseFragment() {
             text = item.text,
             labels = item.labels,
             word = args.word,
+            xrefs = item.xrefs,
         )
         val action = WordFragmentDirections.actionWordFragmentToRememberDefinitionBottomSheetDialog(model)
         navigator.navController.navigate(action)
@@ -295,6 +297,7 @@ class WordFragment : BaseFragment() {
                             partOfSpeech = it.partOfSpeech,
                             text = it.text,
                             labels = it.labels,
+                            xrefs = it.xrefs,
                         )
                     }
                 }

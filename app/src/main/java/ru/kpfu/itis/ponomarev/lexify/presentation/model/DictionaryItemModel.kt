@@ -24,6 +24,7 @@ data class DictionaryWordDefinitionModel(
     val partOfSpeech: String?,
     val text: String,
     val labels: List<WordDefinitionLabelModel>,
+    val xrefs: Set<String>,
 ) : DictionaryItemModel()
 
 data class DictionaryWordEtymologyModel(

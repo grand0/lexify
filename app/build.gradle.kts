@@ -87,6 +87,9 @@ dependencies {
 
     // logging
     implementation(libs.slf4j.simple)
+
+    // jsoup
+    implementation(libs.jsoup)
 }
 
 // Allow references to generated code
