@@ -5,16 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:divider="@drawable/empty_vertical_divider"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:showDividers="middle">
+    android:padding="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_loved_block"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_ripple_rounded"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
 
         <TextView
             android:id="@+id/tv_loved_label"
@@ -50,17 +51,20 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:background="@drawable/keyboard_arrow_right_24dp"
+            android:backgroundTint="?colorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/tv_loved_word"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_loved_word"
-            android:backgroundTint="?colorPrimary" />
+            app:layout_constraintTop_toTopOf="@id/tv_loved_word" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_lists_block"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_ripple_rounded"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
 
         <TextView
             android:id="@+id/tv_lists_label"
@@ -96,10 +100,10 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:background="@drawable/keyboard_arrow_right_24dp"
+            android:backgroundTint="?colorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/tv_lists_word"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_lists_word"
-            android:backgroundTint="?colorPrimary" />
+            app:layout_constraintTop_toTopOf="@id/tv_lists_word" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

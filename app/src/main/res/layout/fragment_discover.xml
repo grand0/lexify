@@ -4,16 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:divider="@drawable/empty_vertical_divider"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:showDividers="middle">
+    android:padding="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_wotd_block"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_ripple_rounded"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
 
         <TextView
             android:id="@+id/tv_wotd_label"
@@ -48,10 +49,10 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:background="@drawable/keyboard_arrow_right_24dp"
+            android:backgroundTint="?colorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/tv_wotd_word"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_wotd_word"
-            android:backgroundTint="?colorPrimary" />
+            app:layout_constraintTop_toTopOf="@id/tv_wotd_word" />
 
         <TextView
             android:id="@+id/tv_wotd_error"
@@ -81,7 +82,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_rw_block"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_ripple_rounded"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
 
         <TextView
             android:id="@+id/tv_rw_label"
@@ -117,10 +121,10 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:background="@drawable/keyboard_arrow_right_24dp"
+            android:backgroundTint="?colorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/tv_rw_word"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_rw_word"
-            android:backgroundTint="?colorPrimary" />
+            app:layout_constraintTop_toTopOf="@id/tv_rw_word" />
 
         <TextView
             android:id="@+id/tv_rw_error"

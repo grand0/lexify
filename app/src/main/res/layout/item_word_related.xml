@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/colorSurface"
+    android:foreground="?selectableItemBackground"
     android:paddingHorizontal="20dp"
     android:paddingTop="6dp"
     android:paddingBottom="6dp">
@@ -13,9 +14,9 @@
         android:id="@+id/tv_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textSize="16sp"
         tools:text="Schrödinger’s cat" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
