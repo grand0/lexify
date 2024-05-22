@@ -58,6 +58,7 @@ class ListsRepositoryImpl @Inject constructor(
 
     override suspend fun deleteList(name: String) {
         withContext(Dispatchers.IO) {
+            db.listsDao.clearList(name)
             db.listsDao.deleteList(name)
         }
     }

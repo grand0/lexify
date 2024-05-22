@@ -26,6 +26,9 @@ interface ListsDao {
     @Query("DELETE FROM lists WHERE name = :name")
     fun deleteList(name: String)
 
+    @Query("DELETE FROM list_definition_cross_ref WHERE name = :name")
+    fun clearList(name: String)
+
     @Insert
     fun addDefinition(definition: ListDefinitionEntity)
 
