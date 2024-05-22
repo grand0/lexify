@@ -32,8 +32,10 @@ WORDNIK_API_KEY=<your_api_key>
 ```
 
 ## Screenshots
-![main screen](screenshots/main_screen.jpg)
-![word screen](screenshots/word_screen.jpg)
-![discover screen](screenshots/discover_screen.jpg)
-![list screen](screenshots/list_screen.jpg)
-![roulette screen](screenshots/roulette_screen.jpg)
+<p float="left">
+<img alt="main screen" src="screenshots/main_screen.jpg" width="300"/>
+<img alt="word screen" src="screenshots/word_screen.jpg" width="300"/>
+<img alt="discover screen" src="screenshots/discover_screen.jpg" width="300"/>
+<img alt="list screen" src="screenshots/list_screen.jpg" width="300"/>
+<img alt="roulette screen" src="screenshots/roulette_screen.jpg" width="300"/>
+</p>
